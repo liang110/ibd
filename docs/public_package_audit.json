@@ -1,0 +1,18 @@
+{
+  "status": "pass_with_release_requirements",
+  "source_scaffold": "ibd_framework_scaffold",
+  "included_python_files": 49,
+  "raw_participant_data_included": false,
+  "absolute_workstation_paths_in_config": false,
+  "inline_comment_tokens_except_shebang": 0,
+  "ruff_check": "pass",
+  "ast_parse": "pass",
+  "unit_tests": "16 passed",
+  "synthetic_cli_smoke_test": "pass",
+  "known_release_requirements": [
+    "author-approved license must replace LICENSE_PLACEHOLDER.txt",
+    "public input and output archives must be versioned outside this code-only package",
+    "source-only calibration and Nielsen geography audits must be completed before stronger manuscript claims",
+    "SIAMCAT remains a separately declared protocol reference"
+  ]
+}

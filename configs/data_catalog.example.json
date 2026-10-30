@@ -1,0 +1,23 @@
+{
+  "input_root": "<absolute-or-project-relative-input-root>",
+  "cohorts": {
+    "HMP2": {
+      "abundance": "<path>/manual_abundance.csv",
+      "metadata": "<path>/clean_metadata.csv"
+    },
+    "PRISM": {
+      "abundance": "<path>/prism_abundance_clean.csv",
+      "metadata": "<path>/prism_metadata_clean.csv"
+    },
+    "NielsenHB_2014": {
+      "projection": "<path>/nielsenhb_2014_source_feature_projection.csv",
+      "manifest": "<path>/cohort_manifest_nielsenhb_2014.csv"
+    }
+  },
+  "policy": {
+    "contract": "fixed HMP2-PRISM label-free 126-species contract",
+    "target_labels_for_fitting": false,
+    "target_feature_statistics_for_fitting": false,
+    "strict_source_specific_feature_universe": "not_estimated"
+  }
+}

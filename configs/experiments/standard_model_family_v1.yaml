@@ -1,0 +1,47 @@
+experiment_id: standard_model_family_v1
+task:
+  endpoint: binary_ibd_vs_control
+  modality: microbiome_species_only
+  shared_feature_contract: fixed_hmp2_prism_126_species_projected_to_nielsen
+  contract_definition: label_free_hmp2_prism_taxonomic_intersection_before_nielsen_evaluation
+  forbidden_inputs:
+    - clinical_covariates
+    - participant_identifiers
+    - outcome_derived_features
+    - target_cohort_labels
+    - target_cohort_distribution_statistics
+preprocessing:
+  closure: per_sample_in_fixed_shared_space
+  transform: clr
+  prevalence_filter: training_fold_only_minimum_0.10
+  feature_selection: training_fold_only_mutual_information_top_100
+model_selection:
+  source_perturbations: 10
+  source_validation_fraction: 0.20
+  grouped_inner_folds: 3
+  selection_score: roc_auc
+  refit_after_selection: all_eligible_source_observations
+comparators:
+  - prevalence_baseline
+  - logistic_l2
+  - elastic_net
+  - linear_svm
+  - random_forest
+  - xgboost
+  - shallow_mlp
+evaluation:
+  directions:
+    - HMP2_to_PRISM
+    - PRISM_to_HMP2
+    - HMP2_to_NielsenHB_2014
+    - PRISM_to_NielsenHB_2014
+    - NielsenHB_2014_to_HMP2
+    - NielsenHB_2014_to_PRISM
+  primary_metrics: [roc_auc, average_precision, brier]
+  target_uncertainty: 500_participant_cluster_bootstrap
+  target_role: locked_external_evaluation_only
+boundaries:
+  strict_source_specific_feature_universe: not_estimated
+  real_world_confounding_control: not_estimated
+  clinical_deployment: not_estimated
+  broad_population_generalization: not_estimated

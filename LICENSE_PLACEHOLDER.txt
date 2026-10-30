@@ -1,0 +1,4 @@
+License pending author approval.
+
+Before public release, replace this file with the license selected by the
+copyright holders and update the repository README.
