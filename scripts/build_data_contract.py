@@ -14,6 +14,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--legacy-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--include-metabolome",
+        action="store_true",
+        help="Include optional metabolome matrices in the audit contract.",
+    )
     args = parser.parse_args()
     root = args.legacy_root.resolve()
     specs = [
@@ -25,27 +30,32 @@ def main() -> None:
             root / "clean_metadata.csv",
         ),
         MatrixSpec(
-            "HMP2",
-            "metabolome",
-            root / "metabolites.csv",
-            "Feature",
-            root / "clean_metadata.csv",
-        ),
-        MatrixSpec(
             "PRISM",
             "microbiome",
             root / "prism_abundance_clean.csv",
             "Species",
             root / "prism_metadata_clean.csv",
         ),
-        MatrixSpec(
-            "PRISM",
-            "metabolome",
-            root / "prism_metabolites_clean.csv",
-            "Metabolite",
-            root / "prism_metadata_clean.csv",
-        ),
     ]
+    if args.include_metabolome:
+        specs.extend(
+            [
+                MatrixSpec(
+                    "HMP2",
+                    "metabolome",
+                    root / "metabolites.csv",
+                    "Feature",
+                    root / "clean_metadata.csv",
+                ),
+                MatrixSpec(
+                    "PRISM",
+                    "metabolome",
+                    root / "prism_metabolites_clean.csv",
+                    "Metabolite",
+                    root / "prism_metadata_clean.csv",
+                ),
+            ]
+        )
     summary = write_contracts(specs, args.output_dir.resolve(), root)
     print(json.dumps(summary, indent=2, sort_keys=True))
 

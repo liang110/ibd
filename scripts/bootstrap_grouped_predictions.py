@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Participant-cluster bootstrap for prediction tables with registered variants."""
+"""Shared-target participant-cluster bootstrap for frozen predictions."""
 
 from __future__ import annotations
 
@@ -29,15 +29,21 @@ def _metric_values(frame: pd.DataFrame, weights: np.ndarray | None = None) -> di
     }
 
 
-def _weights(frame: pd.DataFrame, rng: np.random.Generator) -> np.ndarray:
-    clusters = frame.bootstrap_cluster.drop_duplicates().to_numpy()
+def _shared_weight_map(
+    frame: pd.DataFrame, rng: np.random.Generator
+) -> dict[str, int]:
+    """Draw one participant bootstrap vector for an aggregate target cell."""
+    clusters = np.sort(frame.bootstrap_cluster.astype(str).unique())
+    outcomes = frame.assign(bootstrap_cluster=frame.bootstrap_cluster.astype(str)).groupby(
+        "bootstrap_cluster", sort=True
+    ).outcome_ibd.first()
     for _ in range(100):
         sampled = rng.choice(clusters, size=len(clusters), replace=True)
-        counts = pd.Series(sampled).value_counts()
-        weights = frame.bootstrap_cluster.map(counts).fillna(0.0).to_numpy(float)
-        if frame.loc[weights > 0, "outcome_ibd"].nunique() == 2:
-            return weights
-    raise RuntimeError("Unable to retain both outcomes in participant-cluster bootstrap")
+        counts = pd.Series(sampled).value_counts().to_dict()
+        retained = outcomes.index.intersection(counts)
+        if outcomes.loc[retained].nunique() == 2:
+            return {str(cluster): int(counts.get(cluster, 0)) for cluster in clusters}
+    raise RuntimeError("Unable to retain both outcomes in shared participant bootstrap")
 
 
 def main() -> None:
@@ -60,13 +66,30 @@ def main() -> None:
         raise ValueError(f"Prediction table missing columns: {sorted(missing)}")
     rng = np.random.default_rng(args.seed)
     summaries, draws = [], []
+    shared_weights: dict[tuple, list[dict[str, int]]] = {}
+    grouped_frames = {
+        (keys,) if len(group_columns) == 1 else keys: frame.copy()
+        for keys, frame in predictions.groupby(group_columns, sort=True)
+    }
+    aggregate_to_groups: dict[tuple, list[tuple]] = {}
+    for group_key in grouped_frames:
+        aggregate_key = tuple(group_key[group_columns.index(column)] for column in aggregate_columns)
+        aggregate_to_groups.setdefault(aggregate_key, []).append(group_key)
+    for aggregate_key, group_keys in aggregate_to_groups.items():
+        reference = grouped_frames[group_keys[0]]
+        shared_weights[aggregate_key] = [
+            _shared_weight_map(reference, rng) for _ in range(args.n_bootstrap)
+        ]
     for keys, frame in predictions.groupby(group_columns, sort=True):
         keys = (keys,) if len(group_columns) == 1 else keys
         key_values = dict(zip(group_columns, keys))
+        aggregate_key = tuple(key_values[column] for column in aggregate_columns)
         observed = _metric_values(frame)
         boot = []
         for replicate in range(args.n_bootstrap):
-            values = _metric_values(frame, _weights(frame, rng))
+            weight_map = shared_weights[aggregate_key][replicate]
+            weights = frame.bootstrap_cluster.astype(str).map(weight_map).fillna(0.0).to_numpy(float)
+            values = _metric_values(frame, weights)
             boot.append(values)
             draws.append({**key_values, "replicate": replicate, **values})
         boot_frame = pd.DataFrame(boot)
@@ -90,6 +113,16 @@ def main() -> None:
     draw_frame = pd.DataFrame(draws)
     summary.to_csv(out / "cluster_bootstrap_by_split.csv", index=False)
     draw_frame.to_csv(out / "cluster_bootstrap_draws.csv", index=False)
+    weight_rows = []
+    for aggregate_key, vectors in shared_weights.items():
+        aggregate_values = dict(zip(aggregate_columns, aggregate_key))
+        for replicate, vector in enumerate(vectors):
+            for cluster, multiplicity in vector.items():
+                weight_rows.append(
+                    {**aggregate_values, "replicate": replicate, "bootstrap_cluster": cluster,
+                     "multiplicity": multiplicity}
+                )
+    pd.DataFrame(weight_rows).to_csv(out / "shared_target_bootstrap_weights.csv", index=False)
     aggregate_draws = draw_frame.groupby([*aggregate_columns, "replicate"], as_index=False)[
         list(METRICS)
     ].mean()
@@ -111,6 +144,8 @@ def main() -> None:
         "aggregate_columns": aggregate_columns,
         "n_groups": int(len(summary)),
         "n_aggregate_cells": int(len(aggregate)),
+        "weight_protocol": "one_shared_participant_weight_vector_per_aggregate_cell_and_replicate",
+        "weight_manifest": "shared_target_bootstrap_weights.csv",
     }
     (out / "bootstrap_summary.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))

@@ -15,7 +15,7 @@ the data-processing order.
 Validation performed on the package:
 
 - AST parse: 49 Python files passed.
-- Unit and contract tests: 16 passed with `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`.
+- Unit and contract tests: 18 passed with `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`.
 - Ruff check: passed for `src`, `scripts` and `tests`.
 - Token-level comment scan: only executable shebangs remain.
 

@@ -60,6 +60,7 @@ def select_standard_models(
     min_prevalence: float = 0.10,
     top_k: int = 100,
     feature_cap: int | None = None,
+    allow_ungrouped_early_stopping: bool = False,
 ) -> dict[str, SelectedModel]:
     """Select exactly one candidate per family using source-only nested folds.
 
@@ -68,7 +69,11 @@ def select_standard_models(
     candidate's preprocessing state, even indirectly.
     """
     labels = np.asarray(y_source)
-    candidates = standard_model_candidates(seed, include_xgboost=include_xgboost)
+    candidates = standard_model_candidates(
+        seed,
+        include_xgboost=include_xgboost,
+        allow_ungrouped_early_stopping=allow_ungrouped_early_stopping,
+    )
     selections: dict[str, SelectedModel] = {}
     inner_folds = list(_inner_splits(labels, groups, n_inner_splits, seed))
     for family, family_candidates in candidates.items():

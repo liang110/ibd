@@ -1,9 +1,9 @@
 # IBD microbiome transferability benchmark
 
 This repository contains the minimal, data-free implementation package for the
-IBD cross-cohort transferability benchmark. It implements the frozen analytical
-contract used by the manuscript without shipping participant-level data,
-manuscript files, derived result tables, or local workstation paths.
+IBD cross-cohort transferability benchmark. It implements the registered
+analytical contract without shipping participant-level data, manuscript files,
+derived result tables, or local workstation paths.
 
 ## Scope
 
@@ -45,6 +45,15 @@ requires the optional `third-cohort` dependencies. The package intentionally
 does not bundle those public cohort files; obtain them under their original
 licenses and record their SHA-256 values in the run manifest.
 
+The primary microbiome contract is independent of metabolome files. Optional
+metabolome matrices can be included in the contract audit only with
+`--include-metabolome`; they are not used by the IBD transfer benchmark.
+
+The public default disables scikit-learn MLP sample-level early stopping. The
+optional `--allow-ungrouped-early-stopping` runner flag exists only to reproduce
+the historical registered MLP comparator and must not be used to support
+participant-aware validation claims; its value is written to the run manifest.
+
 ## Input boundary
 
 Commands accept explicit paths to user-supplied matrices and manifests. Use the
@@ -81,9 +90,13 @@ python scripts/bootstrap_grouped_predictions.py \
   --aggregate-columns direction,model
 ```
 
-The commands write machine-readable metrics, predictions, tuning records and
-audit summaries. Figures and manuscript documents are built outside this code
-package from a frozen result registry.
+The bootstrap command creates one participant-weight vector per aggregate
+target cell and replicate, applies it to every source perturbation and model in
+that cell, and writes the vectors to
+`shared_target_bootstrap_weights.csv`. This is the common-target weighting
+protocol used by the manuscript. The commands write machine-readable metrics,
+predictions, tuning records and audit summaries. Figures and manuscript
+documents are built outside this code package from a frozen result registry.
 
 The SIAMCAT input/export and native-reference runner are optional and are not
 merged into the CLR model ranking. They require a separately versioned R/SIAMCAT
@@ -100,9 +113,11 @@ ruff check src scripts tests
 ## Reproducibility and disclosure
 
 Every public run should archive the exact input checksums, package revision,
-configuration, software versions, seeds, contract hash and output manifest.
-The release does not include the source manuscript, author metadata, funding
-statements, code-availability URLs, or DOI archive identifiers.
+configuration, software versions, seeds, contract hash, shared bootstrap weight
+manifest and output manifest. The code-only package does not include the source
+manuscript, author metadata, funding statements, figures, frozen result CSVs,
+or DOI archive identifiers; those artifacts must be linked in the versioned
+submission archive.
 
 The default license is intentionally not assumed. Replace
 `LICENSE_PLACEHOLDER.txt` with the authors' approved license before public

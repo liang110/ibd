@@ -55,6 +55,7 @@ def _direction_records(
     target_manifest: pd.DataFrame,
     grouped: bool,
     n_splits: int,
+    allow_ungrouped_early_stopping: bool,
 ) -> tuple[list[dict], list[dict], list[dict]]:
     metrics: list[dict] = []
     predictions: list[dict] = []
@@ -69,6 +70,7 @@ def _direction_records(
             groups=groups,
             seed=EXPERIMENT_SEED + split_id,
             n_inner_splits=3,
+            allow_ungrouped_early_stopping=allow_ungrouped_early_stopping,
         )
 
         pipeline, fitted = fit_final_source_models(
@@ -137,6 +139,11 @@ def main() -> None:
     parser.add_argument("--nielsen-manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--n-splits", type=int, default=10)
+    parser.add_argument(
+        "--allow-ungrouped-early-stopping",
+        action="store_true",
+        help="Legacy compatibility mode; not valid for participant-aware claims.",
+    )
     args = parser.parse_args()
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -171,7 +178,11 @@ def main() -> None:
     all_predictions: list[dict] = []
     all_tuning: list[dict] = []
     for values in directions:
-        metrics, predictions, tuning = _direction_records(*values, n_splits=args.n_splits)
+        metrics, predictions, tuning = _direction_records(
+            *values,
+            n_splits=args.n_splits,
+            allow_ungrouped_early_stopping=args.allow_ungrouped_early_stopping,
+        )
         all_metrics.extend(metrics)
         all_predictions.extend(predictions)
         all_tuning.extend(tuning)
@@ -193,6 +204,7 @@ def main() -> None:
         "n_inner_splits": 3,
         "shared_features": len(shared),
         "target_labels_used_for_selection": False,
+        "allow_ungrouped_early_stopping": args.allow_ungrouped_early_stopping,
         "models": sorted(metric_frame.model.unique().tolist()),
         "external_target_summary": aggregate.reset_index().round(6).to_dict(orient="records"),
     }

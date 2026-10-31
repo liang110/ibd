@@ -172,14 +172,24 @@ def write_contracts(
         registry["shared_across_hmp2_prism"].fillna(False) & ~registry["is_forbidden_clinical"],
         ["modality", "canonical_feature_id"],
     ].drop_duplicates()
+    shared_microbiome = shared.loc[shared["modality"] == "microbiome", "canonical_feature_id"].tolist()
     shared.to_csv(output_dir / "shared_feature_candidates.csv", index=False)
+    contract_hash = hashlib.sha256("\n".join(shared_microbiome).encode("utf-8")).hexdigest()
+    canonicalizer_hash = sha256_file(
+        Path(__file__).resolve().parents[1] / "harmonization" / "features.py"
+    )
 
+    prism_microbiome = next(
+        spec for spec in specs if spec.cohort == "PRISM" and spec.modality == "microbiome"
+    )
     summary = {
         "source_root": str(source_root),
         "n_source_matrices": len(specs),
         "shared_microbiome_candidates": int((shared["modality"] == "microbiome").sum()),
+        "shared_microbiome_contract_sha256": contract_hash,
+        "canonicalizer_sha256": canonicalizer_hash,
         "shared_metabolite_exact_name_candidates": int((shared["modality"] == "metabolome").sum()),
-        "prism_manifest_origins": build_manifest(specs[2], axes["PRISM:microbiome"][0])["origin"]
+        "prism_manifest_origins": build_manifest(prism_microbiome, axes["PRISM:microbiome"][0])["origin"]
         .value_counts()
         .to_dict(),
         "forbidden_clinical_rows": int(registry["is_forbidden_clinical"].sum()),

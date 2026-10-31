@@ -7,7 +7,7 @@
   "inline_comment_tokens_except_shebang": 0,
   "ruff_check": "pass",
   "ast_parse": "pass",
-  "unit_tests": "16 passed",
+  "unit_tests": "18 passed",
   "synthetic_cli_smoke_test": "pass",
   "known_release_requirements": [
     "author-approved license must replace LICENSE_PLACEHOLDER.txt",
