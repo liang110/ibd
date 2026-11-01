@@ -13,12 +13,14 @@
    schemas. The source 80:20 participant split is a perturbation for model
    selection; the grouped inner CV is the source-side selection layer; the final
    refit uses all eligible source observations.
-6. Compute common-target participant-cluster bootstrap replicates with
-   `bootstrap_grouped_predictions.py`. The command writes the exact shared
-   participant-weight vectors used for each aggregate cell and replicate to
-   `shared_target_bootstrap_weights.csv`; use `paired_model_bootstrap.py` for
-   paired model contrasts when the input table has one prediction row per model
-   and target sample.
+6. Compute common-target participant-cluster bootstrap replicates with the
+   registered common-target path implemented by `bootstrap_grouped_predictions.py`
+   and the closure runner used for the frozen release. The command writes the
+   exact shared participant-weight vectors used for each direction and replicate
+   to `shared_target_bootstrap_weights.csv`. `paired_model_bootstrap.py` is a
+   legacy/marginal compatibility script and is not the final source for the
+   manuscript paired tables; use it only for explicitly labelled non-primary
+   diagnostics.
 7. Run the leakage, participant-unit and calibration audits on the frozen
    predictions. These audits do not refit models unless the command explicitly
    states that it is a source-only diagnostic.

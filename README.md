@@ -87,20 +87,38 @@ python scripts/bootstrap_grouped_predictions.py \
   --predictions results/standard_benchmark/standard_model_benchmark_predictions.csv \
   --output-dir results/cluster_bootstrap \
   --group-columns direction,model,split \
-  --aggregate-columns direction,model
+  --aggregate-columns direction
 ```
 
-The bootstrap command creates one participant-weight vector per aggregate
-target cell and replicate, applies it to every source perturbation and model in
-that cell, and writes the vectors to
-`shared_target_bootstrap_weights.csv`. This is the common-target weighting
-protocol used by the manuscript. The commands write machine-readable metrics,
+For the manuscript's common-target protocol, `aggregate-columns direction` is
+required: it creates one participant-weight vector per direction and replicate,
+then applies it to every source perturbation, split and model in that direction.
+Using `aggregate-columns direction,model` is a different marginal-per-model
+protocol and must not be used for cross-model paired contrasts. The bootstrap
+command writes the vectors to `shared_target_bootstrap_weights.csv`. This is
+the common-target weighting protocol used by the manuscript. The commands write
+machine-readable metrics,
 predictions, tuning records and audit summaries. Figures and manuscript
 documents are built outside this code package from a frozen result registry.
 
-The SIAMCAT input/export and native-reference runner are optional and are not
-merged into the CLR model ranking. They require a separately versioned R/SIAMCAT
-environment and should be reported as a protocol-level reference only.
+The six standard comparator implementations and the prevalence baseline in
+`src/ibd_microbiome_framework/models/standard.py` are the executable models for
+the primary benchmark. They are not SIAMCAT reimplementations and must not be
+removed merely because the SIAMCAT paper-analysis repository delegates model
+fitting to the upstream SIAMCAT/mlr stack.
+
+The SIAMCAT input/export and native-reference runner are optional adapters and
+are not merged into the CLR model ranking. They require a separately versioned
+R/SIAMCAT environment and an external reference script. The repository does
+not contain the SIAMCAT R/Bioconductor implementation; obtain it from the
+upstream SIAMCAT project and report the resulting analysis as a protocol-level
+reference only. These adapters must not be described as a self-contained
+SIAMCAT baseline or as an independent-data replication.
+
+The primary common-target result path is the only path for manuscript Table 2,
+Supplementary Tables 10, 16 and 17, and Figures 3–4. Marginal or historical
+bootstrap scripts are retained for audit compatibility and must not be used to
+regenerate the paired manuscript results.
 
 ## Tests and checks
 
@@ -114,7 +132,9 @@ ruff check src scripts tests
 
 Every public run should archive the exact input checksums, package revision,
 configuration, software versions, seeds, contract hash, shared bootstrap weight
-manifest and output manifest. The code-only package does not include the source
+manifest and output manifest. Use `docs/runtime_manifest_template.json` to
+record the exact runtime rather than relying on lower-bound dependency ranges.
+The code-only package does not include the source
 manuscript, author metadata, funding statements, figures, frozen result CSVs,
 or DOI archive identifiers; those artifacts must be linked in the versioned
 submission archive.

@@ -1,0 +1,24 @@
+{
+  "purpose": "Fill this file for each tagged result-generating release.",
+  "python": "",
+  "platform": "",
+  "package_commit": "",
+  "package_tag": "",
+  "dependencies": {
+    "numpy": "",
+    "pandas": "",
+    "scikit-learn": "",
+    "scipy": "",
+    "xgboost": "",
+    "pyyaml": "",
+    "r": "",
+    "siamcat": ""
+  },
+  "seed_registry": "",
+  "configuration_sha256": "",
+  "input_manifest_sha256": "",
+  "output_manifest_sha256": "",
+  "contract_sha256": "",
+  "canonicalizer_sha256": "",
+  "bootstrap_weight_manifest_sha256": ""
+}
