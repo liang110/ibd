@@ -51,7 +51,7 @@ metabolome matrices can be included in the contract audit only with
 
 The public default disables scikit-learn MLP sample-level early stopping. The
 optional `--allow-ungrouped-early-stopping` runner flag exists only to reproduce
-the historical registered MLP comparator and must not be used to support
+the final frozen shallow-MLP comparator and must not be used to support
 participant-aware validation claims; its value is written to the run manifest.
 
 ## Input boundary
@@ -116,7 +116,7 @@ reference only. These adapters must not be described as a self-contained
 SIAMCAT baseline or as an independent-data replication.
 
 The primary common-target result path is the only path for manuscript Table 2,
-Supplementary Tables 10, 16 and 17, and Figures 3–4. Marginal or historical
+Supplementary Tables 10, 16 and 17, and Figures 3–6. Marginal or historical
 bootstrap scripts are retained for audit compatibility and must not be used to
 regenerate the paired manuscript results.
 
@@ -142,3 +142,9 @@ submission archive.
 The default license is intentionally not assumed. Replace
 `LICENSE_PLACEHOLDER.txt` with the authors' approved license before public
 release.
+
+
+## Explicit label-contract rules
+
+HMP2 and PRISM use explicit CD/UC versus Control/nonIBD allow-lists; Nielsen uses IBD versus healthy allow-lists. Unknown, missing, conflicting, and cohort-incompatible labels fail closed. The shallow MLP is a final frozen comparator for post-fit analysis, and sample-level early stopping is disabled by default because its internal validation split is not participant-grouped.
+

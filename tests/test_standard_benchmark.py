@@ -30,9 +30,19 @@ def test_standard_candidate_families_have_fixed_grids_without_optional_xgboost()
         "shallow_mlp",
     }
     assert len(candidates["prevalence_baseline"]) == 1
-    assert all(
-        len(models) == 4 for name, models in candidates.items() if name != "prevalence_baseline"
+    assert all(len(models) == 4 for name, models in candidates.items() if name != "prevalence_baseline")
+
+
+def test_mlp_early_stopping_is_disabled_by_default():
+    candidates = standard_model_candidates(seed=1, include_xgboost=False)
+    assert all(model.get_params()["early_stopping"] is False for model in candidates["shallow_mlp"])
+
+
+def test_mlp_ungrouped_early_stopping_requires_explicit_opt_in():
+    candidates = standard_model_candidates(
+        seed=1, include_xgboost=False, allow_ungrouped_early_stopping=True
     )
+    assert all(model.get_params()["early_stopping"] is True for model in candidates["shallow_mlp"])
 
 
 def test_nested_selection_and_final_refit_use_source_only_inputs():

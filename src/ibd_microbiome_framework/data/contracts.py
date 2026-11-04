@@ -7,7 +7,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Dict, List, Mapping, Sequence
+from typing import Callable, Dict, Iterable, List, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -17,6 +17,20 @@ from ibd_microbiome_framework.harmonization.features import (
     canonical_taxon,
     is_forbidden_feature,
 )
+
+
+# Label mapping is deliberately explicit.  A missing or previously unseen label
+# must stop contract construction rather than being silently treated as IBD.
+ALLOWED_CONTROL_LABELS = {
+    "Control", "control", "nonIBD", "non-IBD", "non-IBD/control",
+}
+ALLOWED_IBD_LABELS = {
+    "IBD", "ibd", "CD", "cd", "UC", "uc", "Crohn's disease",
+    "Crohn disease", "Crohn's disease (CD)", "Ulcerative colitis",
+    "ulcerative colitis", "Ulcerative colitis (UC)",
+}
+ALLOWED_NIELSEN_CONTROL_LABELS = {"healthy", "Healthy", "control", "Control"}
+ALLOWED_NIELSEN_IBD_LABELS = {"IBD", "ibd"}
 
 
 @dataclass(frozen=True)
@@ -77,12 +91,40 @@ def build_manifest(spec: MatrixSpec, matrix_samples: Sequence[str]) -> pd.DataFr
         manifest["participant_id"] = manifest["sample_id"]
         manifest["site"] = "unknown"
         manifest["timepoint"] = "cross_sectional"
+    elif spec.cohort == "NielsenHB_2014":
+        # Nielsen origin is carried by the cohort-specific loader when present.
+        # Keep the generic contract path explicit rather than falling back to HMP2.
+        manifest["origin"] = manifest.get("country", spec.cohort)
+        manifest["participant_id"] = manifest.get("Participant ID", manifest["sample_id"])
+        manifest["site"] = manifest.get("site_name", "unknown")
+        manifest["timepoint"] = manifest.get("timepoint", np.nan)
     else:
         manifest["origin"] = "HMP2"
         manifest["participant_id"] = manifest.get("Participant ID", manifest["sample_id"])
         manifest["site"] = manifest.get("site_name", "unknown")
         manifest["timepoint"] = manifest.get("week_num", np.nan)
-    manifest["outcome_ibd"] = (~manifest["group"].isin(["Control", "nonIBD"])).astype(int)
+    if "group" not in manifest.columns:
+        raise ValueError(f"{spec.metadata_path} lacks the required raw 'group' label column")
+    raw = manifest["group"].astype("string").str.strip()
+    observed = set(raw.dropna().tolist())
+    if spec.cohort == "NielsenHB_2014":
+        control_labels = ALLOWED_NIELSEN_CONTROL_LABELS
+        ibd_labels = ALLOWED_NIELSEN_IBD_LABELS
+    else:
+        control_labels = ALLOWED_CONTROL_LABELS
+        ibd_labels = ALLOWED_IBD_LABELS
+    allowed = control_labels | ibd_labels
+    unknown = sorted(observed - allowed)
+    if raw.isna().any() or unknown:
+        missing_n = int(raw.isna().sum())
+        raise ValueError(
+            f"{spec.cohort}: label mapping is not closed; missing={missing_n}, "
+            f"unknown={unknown}. Add an explicit mapping before building the contract."
+        )
+    manifest["outcome_ibd"] = raw.map(
+        {label: 0 for label in control_labels}
+        | {label: 1 for label in ibd_labels}
+    ).astype(int)
     manifest["diagnosis_subtype"] = manifest.get("diagnosis", manifest["group"])
     if manifest["sample_id"].duplicated().any():
         raise ValueError(f"Duplicate sample IDs in {spec.cohort} manifest")
@@ -159,17 +201,14 @@ def write_contracts(
         sums = abundance_library_sizes(spec.path)
         for sample_id, value in sums.items():
             library_rows.append(
-                {
-                    "cohort": spec.cohort,
-                    "sample_id": sample_id,
-                    "library_sum": float(value),
-                }
+                {"cohort": spec.cohort, "sample_id": sample_id, "library_sum": float(value)}
             )
     library = pd.DataFrame(library_rows)
     library.to_csv(output_dir / "microbiome_library_sums.csv", index=False)
 
     shared = registry.loc[
-        registry["shared_across_hmp2_prism"].fillna(False) & ~registry["is_forbidden_clinical"],
+        registry["shared_across_hmp2_prism"].fillna(False)
+        & ~registry["is_forbidden_clinical"],
         ["modality", "canonical_feature_id"],
     ].drop_duplicates()
     shared_microbiome = shared.loc[shared["modality"] == "microbiome", "canonical_feature_id"].tolist()
@@ -189,9 +228,7 @@ def write_contracts(
         "shared_microbiome_contract_sha256": contract_hash,
         "canonicalizer_sha256": canonicalizer_hash,
         "shared_metabolite_exact_name_candidates": int((shared["modality"] == "metabolome").sum()),
-        "prism_manifest_origins": build_manifest(prism_microbiome, axes["PRISM:microbiome"][0])["origin"]
-        .value_counts()
-        .to_dict(),
+        "prism_manifest_origins": build_manifest(prism_microbiome, axes["PRISM:microbiome"][0])["origin"].value_counts().to_dict(),
         "forbidden_clinical_rows": int(registry["is_forbidden_clinical"].sum()),
     }
     (output_dir / "contract_summary.json").write_text(
