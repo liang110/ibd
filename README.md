@@ -50,35 +50,39 @@ metabolome matrices can be included in the contract audit only with
 `--include-metabolome`; they are not used by the IBD transfer benchmark.
 
 The public default disables scikit-learn MLP sample-level early stopping. The
-optional `--allow-ungrouped-early-stopping` runner flag exists only to reproduce
-the final frozen shallow-MLP comparator and must not be used to support
-participant-aware validation claims; its value is written to the run manifest.
+manuscript comparator was run with `--allow-ungrouped-early-stopping`, which sets
+`early_stopping=True`, `validation_fraction=0.15`, and `n_iter_no_change=30` for
+the shallow MLP. This internal validation split is sample-level and is reported as a
+descriptive comparator; it is not participant-aware validation. The flag must not be
+used to support participant-aware validation claims, and its value is written to the
+run manifest.
 
 ## Input boundary
 
-Commands accept explicit paths to user-supplied matrices and manifests. Use the
-schemas in `data/input_schema.md` and the configuration templates under
-`configs/`. Never place participant-level inputs or access tokens in this
-repository. The source feature contract must be generated and hashed before a
-locked target is projected.
+Analysis commands accept explicit paths to user-supplied cohort matrices, manifests,
+and (where applicable) a Nielsen projection; the repository does not download or
+embed participant-level inputs. Use the schemas in `data/input_schema.md` and the
+configuration templates under `configs/`. Never place participant-level inputs or
+access tokens in this repository. The source feature contract must be generated and
+hashed before a locked target is projected.
 
 ## Primary commands
 
 ```bash
 python scripts/build_data_contract.py \
-  --legacy-root /path/to/frozen_inputs \
+  --legacy-root /path/to/cohort_inputs \
   --output-dir results/contract
 
 python scripts/run_standard_model_benchmark.py \
   --contract-dir results/contract \
-  --legacy-root /path/to/frozen_inputs \
+  --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
   --output-dir results/standard_benchmark
 
 python scripts/run_reciprocal_nielsen_standard_benchmark.py \
   --contract-dir results/contract \
-  --legacy-root /path/to/frozen_inputs \
+  --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
   --output-dir results/reciprocal_nielsen
@@ -99,7 +103,7 @@ command writes the vectors to `shared_target_bootstrap_weights.csv`. This is
 the common-target weighting protocol used by the manuscript. The commands write
 machine-readable metrics,
 predictions, tuning records and audit summaries. Figures and manuscript
-documents are built outside this code package from a frozen result registry.
+documents are built outside this code package from the recorded benchmark outputs.
 
 The six standard comparator implementations and the prevalence baseline in
 `src/ibd_microbiome_framework/models/standard.py` are the executable models for
@@ -116,7 +120,7 @@ reference only. These adapters must not be described as a self-contained
 SIAMCAT baseline or as an independent-data replication.
 
 The primary common-target result path is the only path for manuscript Table 2,
-Supplementary Tables 10, 16 and 17, and Figures 3–6. Marginal or historical
+Supplementary Tables 10, 16 and 17, and Figures 3–6. Marginal or prior
 bootstrap scripts are retained for audit compatibility and must not be used to
 regenerate the paired manuscript results.
 
@@ -135,7 +139,7 @@ configuration, software versions, seeds, contract hash, shared bootstrap weight
 manifest and output manifest. Use `docs/runtime_manifest_template.json` to
 record the exact runtime rather than relying on lower-bound dependency ranges.
 The code-only package does not include the source
-manuscript, author metadata, funding statements, figures, frozen result CSVs,
+manuscript, author metadata, funding statements, figures, derived result CSVs,
 or DOI archive identifiers; those artifacts must be linked in the versioned
 submission archive.
 
@@ -146,5 +150,6 @@ release.
 
 ## Explicit label-contract rules
 
-HMP2 and PRISM use explicit CD/UC versus Control/nonIBD allow-lists; Nielsen uses IBD versus healthy allow-lists. Unknown, missing, conflicting, and cohort-incompatible labels fail closed. The shallow MLP is a final frozen comparator for post-fit analysis, and sample-level early stopping is disabled by default because its internal validation split is not participant-grouped.
+HMP2 and PRISM use explicit CD/UC versus Control/nonIBD allow-lists; Nielsen uses IBD versus healthy allow-lists. Unknown, missing, conflicting, and cohort-incompatible labels fail closed. The shallow MLP is the manuscript comparator for post-fit analysis. Its reported run uses sample-level early stopping; the public default remains disabled because that internal validation split is not participant-grouped.
+
 
