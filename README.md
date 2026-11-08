@@ -150,9 +150,8 @@ The primary common-target result path generates the registered source-side predi
 used by the post-fit evidence bundle. The current manuscript mapping is: Figure 1
 workflow/source contract; Figure 2 A-cell AUROC; Figure 3 A/B/C/D post-fit
 contrasts; Figure 4 ranking impact and stability; Figure 5 AUROC–Brier comparison;
-Main Tables 1–2 cohort composition and A-cell benchmark; Supplementary Tables S1–S12
-Word-rendered summaries; and Supplementary Tables S13–S23 machine-readable audit
-outputs and fixtures. The Nielsen origin-composition audit is a supplementary scope
+Main Tables 1–2 cohort composition and A-cell benchmark; Supplementary Tables S1–S16
+Word-rendered summaries; SD01–SD11 are the machine-readable audit outputs and fixtures. The Nielsen origin-composition audit is a supplementary scope
 audit. Marginal or prior bootstrap scripts are retained for audit compatibility and
 must not be used to regenerate the paired manuscript results.
 
