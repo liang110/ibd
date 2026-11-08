@@ -130,15 +130,14 @@ audit. Marginal or prior bootstrap scripts are retained for audit compatibility 
 must not be used to regenerate the paired manuscript results.
 
 
-## Reproduction tiers
+## Reproduction and validation notes
 
-The manuscript release distinguishes three reproducibility layers:
+The release separates two reader-facing operations:
 
-- **L1 validator fixtures:** minimal, non-perfect/tie and fail-closed invalid-input fixtures.
-- **L2 post-fit regeneration:** the registered prediction registry plus shared participant multiplicities regenerate 504 cell summaries, 252,000 cell-level metric records, 630 paired contrasts and ranking outputs without refitting models.
-- **L3 source reconstruction:** legally obtained HMP2/IBDMDB, PRISM and NielsenHB_2014 inputs are processed with the declared contract, source-side scripts, configuration, seeds and runtime manifest to rebuild the 126-coordinate contract and the 140,140-row prediction registry. Participant-level source inputs are not redistributed by this repository.
+- **Registered-result regeneration:** the registered prediction registry, direction-specific shared participant multiplicities and scoring specification regenerate the four reporting objects, 504 cell summaries, 252,000 cell-level metric records, 630 paired contrasts and ranking outputs without refitting models. Validator fixtures and the regeneration report are included in the evidence bundle.
+- **Source reconstruction from permitted cohort inputs:** legally obtained HMP2/IBDMDB, PRISM and NielsenHB_2014 inputs are processed with the public source code, declared configuration, seeds and runtime manifest to rebuild the 126-coordinate contract and source-side prediction registry. Participant-level source inputs are not redistributed by this repository.
 
-The public source commit is `5885481c66f29356e4ca65ba801b64b5d3e2c30a`. The participant-label validation patch is archived separately in the submission evidence bundle with its own commit and SHA-256 identifier; it is not represented as part of the public base commit.
+The evidence bundle records validation commands, input/output hashes and release status. The source-reconstruction operation is specified by the README and runtime manifest; it is separate from registered-result regeneration.
 
 ## Manuscript release mapping
 
