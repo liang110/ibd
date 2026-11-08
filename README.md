@@ -180,11 +180,11 @@ configuration, software versions, seeds, contract hash, canonicalizer hash, shar
 bootstrap weight manifest and output manifest. Use `docs/runtime_manifest_template.json`
 to record Python, platform, dependency versions, configuration hash, input hash,
 output hash and bootstrap-weight hash rather than relying on lower-bound dependency
-ranges. The L3 source reconstruction commands are `build_data_contract.py`,
+ranges. The source-reconstruction commands are `build_data_contract.py`,
 `run_standard_model_benchmark.py` for four directions,
 `run_reciprocal_nielsen_standard_benchmark.py` for two directions, and
-`bootstrap_grouped_predictions.py --aggregate-columns direction`. The L2 post-fit
-evaluator and L1 fixtures are documented in the submission evidence bundle.
+`bootstrap_grouped_predictions.py --aggregate-columns direction`. The post-fit
+evaluator and validator fixtures are documented in the submission evidence bundle.
 The code-only package does not include the source
 manuscript, author metadata, funding statements, figures, derived result CSVs,
 or DOI archive identifiers; those artifacts must be linked in the versioned
