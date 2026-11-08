@@ -66,6 +66,33 @@ configuration templates under `configs/`. Never place participant-level inputs o
 access tokens in this repository. The source feature contract must be generated and
 hashed before a locked target is projected.
 
+## Data preparation tutorial
+
+1. Obtain the HMP2/IBDMDB, PRISM and NielsenHB_2014 source files through their
+original provider accessions and permissions (PRJNA398089, PRJNA400072 and
+PRJEB1220). Keep the downloaded files outside this repository and record their
+SHA-256 values in a run manifest.
+2. Arrange each cohort according to `data/input_schema.md`; provide a sample table,
+a participant table, a binary outcome column and the cohort-specific feature matrix.
+Use the explicit cohort label allow-lists described in the Input boundary section.
+3. Put the permitted inputs under a local path such as
+`/path/to/cohort_inputs/{hmp2,prism,nielsen}` and place the sanitized configuration
+template under `configs/`. Do not change the ordered 126-coordinate contract after
+`build_data_contract.py` writes `contract_manifest.json`.
+4. Run the contract builder first, then the standard and reciprocal benchmark
+commands below. Each command writes to a separate directory under `results/`; the
+input contract, prediction table, shared participant weights and output manifest are
+retained together.
+5. For registered-result regeneration, use the fixed prediction registry and
+`shared_bootstrap_weights.csv` from the indexed evidence bundle instead of refitting
+models. The post-fit evaluator writes A/B/C/D cell records, summaries and paired
+contrasts under `results/postfit/`.
+
+The evidence bundle follows the same directory convention: `evidence/` contains
+the registered inputs and audit records, `validation/contract_fixture/` contains
+the executable smoke example, and the root source-index files bind manuscript
+objects to CSV/JSON paths, row counts and SHA-256 values.
+
 ## Primary commands
 
 ```bash
@@ -152,7 +179,7 @@ Figure 5 -> AUROC/Brier source records
 Main Table 1 -> cohort and participant composition
 Main Table 2 -> A-cell benchmark summary
 Supplementary Tables S1–S12 -> Word-rendered summaries
-Supplementary Tables S13–S23 -> machine-readable audit files and fixtures
+Supplementary Tables S13–S16 -> Word summaries; SD01–SD11 -> machine-readable audit files and fixtures
 ```
 
 The evidence bundle contains the 140,140-row prediction registry, shared bootstrap
