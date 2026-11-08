@@ -119,11 +119,52 @@ upstream SIAMCAT project and report the resulting analysis as a protocol-level
 reference only. These adapters must not be described as a self-contained
 SIAMCAT baseline or as an independent-data replication.
 
-The primary common-target result path is the only path for manuscript Table 2,
-Supplementary Tables 10, 16 and 17, and Figures 3–5. The Nielsen origin-composition
-audit is Supplementary Figure S3. Marginal or prior
-bootstrap scripts are retained for audit compatibility and must not be used to
-regenerate the paired manuscript results.
+The primary common-target result path generates the registered source-side predictions
+used by the post-fit evidence bundle. The current manuscript mapping is: Figure 1
+workflow/source contract; Figure 2 A-cell AUROC; Figure 3 A/B/C/D post-fit
+contrasts; Figure 4 ranking impact and stability; Figure 5 AUROC–Brier comparison;
+Main Tables 1–2 cohort composition and A-cell benchmark; Supplementary Tables S1–S12
+Word-rendered summaries; and Supplementary Tables S13–S23 machine-readable audit
+outputs and fixtures. The Nielsen origin-composition audit is a supplementary scope
+audit. Marginal or prior bootstrap scripts are retained for audit compatibility and
+must not be used to regenerate the paired manuscript results.
+
+
+## Reproduction tiers
+
+The manuscript release distinguishes three reproducibility layers:
+
+- **L1 validator fixtures:** minimal, non-perfect/tie and fail-closed invalid-input fixtures.
+- **L2 post-fit regeneration:** the registered prediction registry plus shared participant multiplicities regenerate 504 cell summaries, 252,000 cell-level metric records, 630 paired contrasts and ranking outputs without refitting models.
+- **L3 source reconstruction:** legally obtained HMP2/IBDMDB, PRISM and NielsenHB_2014 inputs are processed with the declared contract, source-side scripts, configuration, seeds and runtime manifest to rebuild the 126-coordinate contract and the 140,140-row prediction registry. Participant-level source inputs are not redistributed by this repository.
+
+The public source commit is `5885481c66f29356e4ca65ba801b64b5d3e2c30a`. The participant-label validation patch is archived separately in the submission evidence bundle with its own commit and SHA-256 identifier; it is not represented as part of the public base commit.
+
+## Manuscript release mapping
+
+The public repository contains the executable source-side implementation. The registered prediction registry, post-fit evaluator outputs, fixtures and source indices are distributed in the separate submission evidence bundle.
+
+```text
+Figure 1 -> workflow/source-contract specification
+Figure 2 -> A-cell AUROC source table
+Figure 3 -> four-object AUROC and matched-operation contrasts
+Figure 4 -> ranking-impact and winner-stability records
+Figure 5 -> AUROC/Brier source records
+Main Table 1 -> cohort and participant composition
+Main Table 2 -> A-cell benchmark summary
+Supplementary Tables S1–S12 -> Word-rendered summaries
+Supplementary Tables S13–S23 -> machine-readable audit files and fixtures
+```
+
+The evidence bundle contains the 140,140-row prediction registry, shared bootstrap
+weights, scoring specification, 252,000 cell-level records, 504 summaries, 630
+paired contrasts, ranking records, the 168-row ESP-only audit, the 12-row
+Spain-source refit audit, validator fixtures, source indices and a file-level
+SHA-256 manifest.
+
+The post-fit A/B/C/D evaluator consumes the registered prediction table and shared
+participant weights; it does not refit models. Its exact script or patch identifier,
+input schema, output row counts and hash manifest are listed in the evidence bundle.
 
 ## Tests and checks
 
@@ -136,9 +177,15 @@ ruff check src scripts tests
 ## Reproducibility and disclosure
 
 Every public run should archive the exact input checksums, package revision,
-configuration, software versions, seeds, contract hash, shared bootstrap weight
-manifest and output manifest. Use `docs/runtime_manifest_template.json` to
-record the exact runtime rather than relying on lower-bound dependency ranges.
+configuration, software versions, seeds, contract hash, canonicalizer hash, shared
+bootstrap weight manifest and output manifest. Use `docs/runtime_manifest_template.json`
+to record Python, platform, dependency versions, configuration hash, input hash,
+output hash and bootstrap-weight hash rather than relying on lower-bound dependency
+ranges. The L3 source reconstruction commands are `build_data_contract.py`,
+`run_standard_model_benchmark.py` for four directions,
+`run_reciprocal_nielsen_standard_benchmark.py` for two directions, and
+`bootstrap_grouped_predictions.py --aggregate-columns direction`. The L2 post-fit
+evaluator and L1 fixtures are documented in the submission evidence bundle.
 The code-only package does not include the source
 manuscript, author metadata, funding statements, figures, derived result CSVs,
 or DOI archive identifiers; those artifacts must be linked in the versioned
