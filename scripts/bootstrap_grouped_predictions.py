@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import average_precision_score, brier_score_loss, roc_auc_score
 
+from ibd_microbiome_framework.data.contracts import validate_participant_labels
+
 
 METRICS = ("roc_auc", "average_precision", "brier")
 
@@ -33,6 +35,11 @@ def _shared_weight_map(
     frame: pd.DataFrame, rng: np.random.Generator
 ) -> dict[str, int]:
     """Draw one participant bootstrap vector for an aggregate target cell."""
+    validate_participant_labels(
+        frame,
+        participant_column="bootstrap_cluster",
+        context="shared-target predictions",
+    )
     clusters = np.sort(frame.bootstrap_cluster.astype(str).unique())
     outcomes = frame.assign(bootstrap_cluster=frame.bootstrap_cluster.astype(str)).groupby(
         "bootstrap_cluster", sort=True

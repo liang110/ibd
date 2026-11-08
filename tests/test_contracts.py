@@ -3,7 +3,12 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from ibd_microbiome_framework.data.contracts import MatrixSpec, build_manifest, write_contracts
+from ibd_microbiome_framework.data.contracts import (
+    MatrixSpec,
+    build_manifest,
+    validate_participant_labels,
+    write_contracts,
+)
 
 
 def _write_inputs(root, prefix: str, feature_column: str):
@@ -68,3 +73,26 @@ def test_missing_labels_fail_closed(tmp_path):
     frame.to_csv(spec.metadata_path, index=False)
     with pytest.raises(ValueError, match="label mapping is not closed"):
         build_manifest(spec, ["s1"])
+
+
+def test_manifest_rejects_conflicting_participant_labels(tmp_path):
+    matrix = tmp_path / "matrix.csv"
+    matrix.write_text(",s1,s2\nf1,1,2\n", encoding="utf-8")
+    metadata = tmp_path / "metadata.csv"
+    metadata.write_text(
+        "sample_id,group,Participant ID\n"
+        "s1,Control,p1\n"
+        "s2,IBD,p1\n",
+        encoding="utf-8",
+    )
+    spec = MatrixSpec("HMP2", "microbiome", matrix, "feature", metadata)
+    with pytest.raises(ValueError, match="Conflicting participant-level labels"):
+        build_manifest(spec, ["s1", "s2"])
+
+
+def test_validate_participant_labels_rejects_conflicts():
+    frame = pd.DataFrame(
+        {"participant_id": ["p1", "p1"], "outcome_ibd": [0, 1]}
+    )
+    with pytest.raises(ValueError, match="Conflicting participant-level labels"):
+        validate_participant_labels(frame, context="fixture")

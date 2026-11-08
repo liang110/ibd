@@ -120,7 +120,8 @@ reference only. These adapters must not be described as a self-contained
 SIAMCAT baseline or as an independent-data replication.
 
 The primary common-target result path is the only path for manuscript Table 2,
-Supplementary Tables 10, 16 and 17, and Figures 3–6. Marginal or prior
+Supplementary Tables 10, 16 and 17, and Figures 3–5. The Nielsen origin-composition
+audit is Supplementary Figure S3. Marginal or prior
 bootstrap scripts are retained for audit compatibility and must not be used to
 regenerate the paired manuscript results.
 
@@ -151,5 +152,10 @@ release.
 ## Explicit label-contract rules
 
 HMP2 and PRISM use explicit CD/UC versus Control/nonIBD allow-lists; Nielsen uses IBD versus healthy allow-lists. Unknown, missing, conflicting, and cohort-incompatible labels fail closed. The shallow MLP is the manuscript comparator for post-fit analysis. Its reported run uses sample-level early stopping; the public default remains disabled because that internal validation split is not participant-grouped.
+
+Manifest construction and post-fit participant aggregation both enforce the
+participant-label invariant: one participant cannot map to more than one binary
+outcome. The regression suite includes a conflicting-label fixture and fails
+before any ``first()`` aggregation can occur.
 
 

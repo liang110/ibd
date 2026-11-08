@@ -71,6 +71,31 @@ def abundance_library_sizes(path: Path) -> pd.Series:
     return numeric.sum(axis=0)
 
 
+def validate_participant_labels(
+    frame: pd.DataFrame,
+    participant_column: str = "participant_id",
+    outcome_column: str = "outcome_ibd",
+    context: str = "table",
+) -> None:
+    """Fail closed when a participant is assigned more than one outcome label."""
+    required = {participant_column, outcome_column}
+    missing = required.difference(frame.columns)
+    if missing:
+        raise ValueError(f"{context} missing participant-label columns: {sorted(missing)}")
+    if frame[participant_column].isna().any():
+        raise ValueError(f"{context} contains missing participant IDs")
+    conflicts = (
+        frame.groupby(participant_column, dropna=False)[outcome_column]
+        .nunique(dropna=False)
+    )
+    bad = conflicts[conflicts > 1]
+    if not bad.empty:
+        raise ValueError(
+            f"Conflicting participant-level labels in {context}: "
+            f"{bad.index.astype(str).tolist()}"
+        )
+
+
 def infer_prism_origin(sample_id: str) -> str:
     if sample_id.startswith("Validation|"):
         return "validation"
@@ -125,6 +150,7 @@ def build_manifest(spec: MatrixSpec, matrix_samples: Sequence[str]) -> pd.DataFr
         {label: 0 for label in control_labels}
         | {label: 1 for label in ibd_labels}
     ).astype(int)
+    validate_participant_labels(manifest, context=f"{spec.cohort} manifest")
     manifest["diagnosis_subtype"] = manifest.get("diagnosis", manifest["group"])
     if manifest["sample_id"].duplicated().any():
         raise ValueError(f"Duplicate sample IDs in {spec.cohort} manifest")

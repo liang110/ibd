@@ -14,6 +14,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import average_precision_score, brier_score_loss, roc_auc_score
 
+from ibd_microbiome_framework.data.contracts import validate_participant_labels
+
 
 def metric_row(y: np.ndarray, p: np.ndarray) -> dict[str, float]:
     out = {"auroc": np.nan, "pr_auc": np.nan, "brier": np.nan}
@@ -25,7 +27,12 @@ def metric_row(y: np.ndarray, p: np.ndarray) -> dict[str, float]:
 
 
 def participant_table(frame: pd.DataFrame) -> tuple[pd.DataFrame, int]:
-    conflicts = int(frame.groupby("bootstrap_cluster")["outcome_ibd"].nunique().gt(1).sum())
+    validate_participant_labels(
+        frame,
+        participant_column="bootstrap_cluster",
+        context="participant-unit sensitivity input",
+    )
+    conflicts = 0
     grouped = frame.groupby("bootstrap_cluster", as_index=False).agg(
         outcome_ibd=("outcome_ibd", "first"), probability=("probability", "mean")
     )
