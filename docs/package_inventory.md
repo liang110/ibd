@@ -5,6 +5,8 @@
 - The complete reusable `src/ibd_microbiome_framework` package and its unit,
   contract, split, synthetic-control and Nielsen preparation tests.
 - Primary standard model benchmark and reciprocal Nielsen runners.
+- The registered post-fit evaluator (`scripts/replay_registered.py`) for saved
+  predictions and participant bootstrap multiplicities.
 - Source-only contract sensitivity, learning-curve, repeated-subject leakage,
   participant-unit, calibration and paired-bootstrap audits.
 - Nielsen public-resource export and locked-target preparation utilities.
@@ -13,6 +15,11 @@
 - P0-R closure, participant-unit, calibration, paired-bootstrap and subgroup
   feasibility audits used to verify the manuscript's declared estimands.
 - Input schemas, sanitized configuration templates and reproducibility notes.
+
+The tracked `code_manifest_sha256.csv` records the byte length and SHA-256
+digest of each version-controlled file except the manifest itself. For tracked
+text files the manifest uses UTF-8 file bytes with LF line endings. The reader
+bundle has a separate manifest that hashes the files as distributed.
 
 ## Intentionally excluded
 

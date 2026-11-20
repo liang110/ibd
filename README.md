@@ -1,22 +1,22 @@
 # IBD microbiome transferability benchmark
 
-This repository contains the minimal, data-free implementation package for the
-IBD cross-cohort transferability benchmark. It implements the registered
-analytical contract without shipping participant-level data, manuscript files,
-derived result tables, or local workstation paths.
+This code package supports the cross-cohort IBD post-fit evaluation protocol.
+The source-side commands rebuild model predictions from permitted cohort inputs.
+The registered-result replay scores the prediction registry with the saved
+participant multiplicities distributed in the accompanying evidence bundle.
 
 ## Scope
 
-The primary estimand is a fixed ordered 126-species HMP2–PRISM transductive
-contract, source-only preprocessing and model selection, six directed
-source-to-target edges, ten source-side perturbations, and participant-cluster
-bootstrap uncertainty. The package does not estimate strict source-specific
-feature-universe deployment, clinical utility, real-world confounding control,
-broad population generalization, or biological invariance.
+The benchmark uses 126 ordered canonical taxonomic coordinates from the
+HMP2–Franzosa feature intersection, six directed transfers and ten source-side
+perturbations. Four reporting objects cross the scoring unit (sample or participant)
+with the prediction rule (metrics averaged across fitted predictors or metric
+computed once on averaged probabilities). The 500 shared target-participant
+bootstrap draws quantify uncertainty conditional on the observed cohort and fits.
 
-The 20% source reserve is used for source perturbation and is not an outer test
-set. Model selection is performed by grouped inner cross-validation within the
-source training partition. Target labels are read only by scoring scripts.
+The 20% source reserve is used for source perturbation. Model selection uses
+grouped inner cross-validation when participants contribute repeated observations.
+The final fit uses all eligible source records. Target outcomes enter the evaluation.
 
 ## Repository map
 
@@ -49,13 +49,12 @@ The primary microbiome contract is independent of metabolome files. Optional
 metabolome matrices can be included in the contract audit only with
 `--include-metabolome`; they are not used by the IBD transfer benchmark.
 
-The public default disables scikit-learn MLP sample-level early stopping. The
-manuscript comparator was run with `--allow-ungrouped-early-stopping`, which sets
-`early_stopping=True`, `validation_fraction=0.15`, and `n_iter_no_change=30` for
-the shallow MLP. This internal validation split is sample-level and is reported as a
-descriptive comparator; it is not participant-aware validation. The flag must not be
-used to support participant-aware validation claims, and its value is written to the
-run manifest.
+The source training commands below reproduce the manuscript shallow-MLP
+configuration with `--allow-ungrouped-early-stopping`. The opt-in enables
+scikit-learn's sample-level internal validation (`validation_fraction=0.15`,
+`n_iter_no_change=30`). The public default disables this internal early stopping.
+The candidate-selection folds remain participant-grouped for repeated observations.
+Each training command records the flag in its run manifest.
 
 ## Input boundary
 
@@ -68,7 +67,7 @@ hashed before a locked target is projected.
 
 ## Data preparation tutorial
 
-1. Obtain the HMP2/IBDMDB, PRISM and NielsenHB_2014 source files through their
+1. Obtain the HMP2/IBDMDB, the Franzosa study (PRISM discovery and Dutch validation) and NielsenHB_2014 source files through their
 original provider accessions and permissions (PRJNA398089, PRJNA400072 and
 PRJEB1220). Keep the downloaded files outside this repository and record their
 SHA-256 values in a run manifest.
@@ -83,17 +82,52 @@ template under `configs/`. Do not change the ordered 126-coordinate contract aft
 commands below. Each command writes to a separate directory under `results/`; the
 input contract, prediction table, shared participant weights and output manifest are
 retained together.
-5. For registered-result regeneration, use the fixed prediction registry and
-`shared_bootstrap_weights.csv` from the indexed evidence bundle instead of refitting
-models. The post-fit evaluator writes A/B/C/D cell records, summaries and paired
-contrasts under `results/postfit/`.
+5. To score the provided case study without refitting, use the commands under
+   [Registered-result replay](#registered-result-replay).
 
-The evidence bundle follows the same directory convention: `evidence/` contains
-the registered inputs and audit records, `validation/contract_fixture/` contains
-the executable smoke example, and the root source-index files bind manuscript
-objects to CSV/JSON paths, row counts and SHA-256 values.
+## Registered-result replay
 
-## Primary commands
+Extract the manuscript reader distribution. From its top-level directory run
+`python -B verify_package.py` to verify the file manifest. The evidence directory
+inside it is named `submission_evidence_bundle_20261108`.
+
+**S17 real-data example.** From inside the extracted evidence directory:
+
+```shell
+python -B protocol_control_20261109/check_example.py --output-dir ../reader_results/s17
+```
+
+The command checks the 3,850 PRISM→HMP2 shallow-MLP predictions against their
+registry, computes the 12 full-target A–D scores with all participant multiplicities
+equal to one, and compares the values to the archived outputs and independent
+reference. Expected AUROCs for A–D are 0.635197098, 0.728818779, 0.653456670
+and 0.749756573. The command writes `reader_check.json` and the invalid-input
+check results in the selected output directory.
+
+**Full weighted replay.** Run the following from this Git checkout in a
+Python 3.11 environment. In the Bash example, set `EVIDENCE` to the extracted
+evidence directory. The bundle contains `requirements-reader.txt` for the
+tested environment. `scripts/replay_registered.py` and the corresponding
+`validation/replay_registered.py` in the reader distribution implement the
+same registered replay.
+
+```bash
+EVIDENCE=/path/to/extracted/submission_evidence_bundle_20261108
+python -B scripts/replay_registered.py \
+  --predictions "${EVIDENCE}/evidence/full_reproducibility_inputs/prediction_registry.csv" \
+  --weights "${EVIDENCE}/evidence/full_reproducibility_inputs/shared_bootstrap_weights.csv" \
+  --output-dir results/postfit
+python -B "${EVIDENCE}/validation/check_replay_tables.py" --output-dir results/postfit
+```
+
+The evaluator consumes the archived participant multiplicities and writes
+252,000 draw-level metric records, 504 cell summaries, 630 within-family paired
+contrasts and 504 ranking entries. The optional comparison command matches the
+four output tables to the archive by scientific keys at absolute tolerance
+`1e-9`. The archive's top-level `README.md` also includes the independent
+statistical audit entry.
+
+## Source reconstruction commands
 
 ```bash
 python scripts/build_data_contract.py \
@@ -105,6 +139,7 @@ python scripts/run_standard_model_benchmark.py \
   --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
+  --allow-ungrouped-early-stopping \
   --output-dir results/standard_benchmark
 
 python scripts/run_reciprocal_nielsen_standard_benchmark.py \
@@ -112,6 +147,7 @@ python scripts/run_reciprocal_nielsen_standard_benchmark.py \
   --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
+  --allow-ungrouped-early-stopping \
   --output-dir results/reciprocal_nielsen
 
 python scripts/bootstrap_grouped_predictions.py \
@@ -121,16 +157,11 @@ python scripts/bootstrap_grouped_predictions.py \
   --aggregate-columns direction
 ```
 
-For the manuscript's common-target protocol, `aggregate-columns direction` is
-required: it creates one participant-weight vector per direction and replicate,
-then applies it to every source perturbation, split and model in that direction.
-Using `aggregate-columns direction,model` is a different marginal-per-model
-protocol and must not be used for cross-model paired contrasts. The bootstrap
-command writes the vectors to `shared_target_bootstrap_weights.csv`. This is
-the common-target weighting protocol used by the manuscript. The commands write
-machine-readable metrics,
-predictions, tuning records and audit summaries. Figures and manuscript
-documents are built outside this code package from the recorded benchmark outputs.
+The bootstrap example shows how to generate shared participant weights for a
+new source-side analysis. With `--aggregate-columns direction`, every model and
+run in the same direction shares a draw. It writes
+`shared_target_bootstrap_weights.csv`. For exact manuscript replay, use the
+distributed weights and the registered replay command above.
 
 The six standard comparator implementations and the prevalence baseline in
 `src/ibd_microbiome_framework/models/standard.py` are the executable models for
@@ -146,50 +177,25 @@ upstream SIAMCAT project and report the resulting analysis as a protocol-level
 reference only. These adapters must not be described as a self-contained
 SIAMCAT baseline or as an independent-data replication.
 
-The primary common-target result path generates the registered source-side predictions
-used by the post-fit evidence bundle. The current manuscript mapping is: Figure 1
-workflow/source contract; Figure 2 A-cell AUROC; Figure 3 A/B/C/D post-fit
-contrasts; Figure 4 ranking impact and stability; Figure 5 AUROC–Brier comparison;
-Main Tables 1–2 cohort composition and A-cell benchmark; Supplementary Tables S1–S16
-Word-rendered summaries; SD01–SD11 are the machine-readable audit outputs and fixtures. The Nielsen origin-composition audit is a supplementary scope
-audit. Marginal or prior bootstrap scripts are retained for audit compatibility and
-must not be used to regenerate the paired manuscript results.
+## Manuscript and source data
 
+| Manuscript item | Content |
+|---|---|
+| Figures 1–2 | Evaluation workflow and A-cell AUROC benchmark |
+| Figure 3 | Paired changes in aggregation order and scoring unit |
+| Figure 4 | Ranking impact and stability |
+| Figure 5 | AUROC and Brier comparisons |
+| Main Tables 1–3 | Cohort composition, A-cell benchmark, and pre-analysis choice of A–D |
+| Supplementary Tables S1–S17 | Protocol definitions, sensitivity analyses, audits and the S17 point estimates |
+| Supplementary Data SD01–SD22 | Machine-readable evidence, commands, tests and file bindings |
 
-## Reproduction and validation notes
-
-The release separates two reader-facing operations:
-
-- **Registered-result regeneration:** the registered prediction registry, direction-specific shared participant multiplicities and scoring specification regenerate the four reporting objects, 504 cell summaries, 252,000 cell-level metric records, 630 paired contrasts and ranking outputs without refitting models. Validator fixtures and the regeneration report are included in the evidence bundle.
-- **Source reconstruction from permitted cohort inputs:** legally obtained HMP2/IBDMDB, PRISM and NielsenHB_2014 inputs are processed with the public source code, declared configuration, seeds and runtime manifest to rebuild the 126-coordinate contract and source-side prediction registry. Participant-level source inputs are not redistributed by this repository.
-
-The evidence bundle records validation commands, input/output hashes and release status. The source-reconstruction operation is specified by the README and runtime manifest; it is separate from registered-result regeneration.
-
-## Manuscript release mapping
-
-The public repository contains the executable source-side implementation. The registered prediction registry, post-fit evaluator outputs, fixtures and source indices are distributed in the separate submission evidence bundle.
-
-```text
-Figure 1 -> workflow/source-contract specification
-Figure 2 -> A-cell AUROC source table
-Figure 3 -> four-object AUROC and matched-operation contrasts
-Figure 4 -> ranking-impact and winner-stability records
-Figure 5 -> AUROC/Brier source records
-Main Table 1 -> cohort and participant composition
-Main Table 2 -> A-cell benchmark summary
-Supplementary Tables S1–S12 -> Word-rendered summaries
-Supplementary Tables S13–S16 -> Word summaries; SD01–SD11 -> machine-readable audit files and fixtures
-```
-
-The evidence bundle contains the 140,140-row prediction registry, shared bootstrap
-weights, scoring specification, 252,000 cell-level records, 504 summaries, 630
-paired contrasts, ranking records, the 168-row ESP-only audit, the 12-row
-Spain-source refit audit, validator fixtures, source indices and a file-level
-SHA-256 manifest.
-
-The post-fit A/B/C/D evaluator consumes the registered prediction table and shared
-participant weights; it does not refit models. Its exact script or patch identifier,
-input schema, output row counts and hash manifest are listed in the evidence bundle.
+The reader distribution includes the study outputs and the authoritative figure
+and table mappings. Open `Main_Table_Source_Index_Final_20261109.csv`,
+`Supplementary_Source_Index_Final_20261109.csv` and
+`Figure_Source_Index_Final_20261108.csv` at its top level. Source paths in
+these indices are relative to its `submission_evidence_bundle_20261108/`
+directory. Main Table 3 gives the four use cases. Supplementary Table S17 gives
+the twelve point estimates for the PRISM→HMP2 example.
 
 ## Tests and checks
 
@@ -209,8 +215,8 @@ output hash and bootstrap-weight hash rather than relying on lower-bound depende
 ranges. The source-reconstruction commands are `build_data_contract.py`,
 `run_standard_model_benchmark.py` for four directions,
 `run_reciprocal_nielsen_standard_benchmark.py` for two directions, and
-`bootstrap_grouped_predictions.py --aggregate-columns direction`. The post-fit
-evaluator and validator fixtures are documented in the submission evidence bundle.
+`bootstrap_grouped_predictions.py --aggregate-columns direction`. For scoring from existing predictions and weights, see
+[Registered-result replay](#registered-result-replay).
 The code-only package does not include the source
 manuscript, author metadata, funding statements, figures, derived result CSVs,
 or DOI archive identifiers; those artifacts must be linked in the versioned
