@@ -45,9 +45,13 @@ requires the optional `third-cohort` dependencies. The package intentionally
 does not bundle those public cohort files; obtain them under their original
 licenses and record their SHA-256 values in the run manifest.
 
-The primary microbiome contract is independent of metabolome files. Optional
-metabolome matrices can be included in the contract audit only with
-`--include-metabolome`; they are not used by the IBD transfer benchmark.
+The predictors use microbial abundances. Reconstructing the manuscript HMP2
+panel also uses the provider's metabolomics specimen identifiers for eligibility.
+The identifier intersection contained 388 collections from 105 participants.
+Excluding three collections with zero abundance on the projected vocabulary
+retained 385 collections. The source reconstruction guide `SOURCE_RECONSTRUCTION.md`
+in the manuscript reader ZIP gives the sample-selection steps. The optional
+`--include-metabolome` switch controls the additional source audit.
 
 The source training commands below reproduce the manuscript shallow-MLP
 configuration with `--allow-ungrouped-early-stopping`. The opt-in enables
@@ -87,45 +91,28 @@ retained together.
 
 ## Registered-result replay
 
-Extract the manuscript reader distribution. From its top-level directory run
-`python -B verify_package.py` to verify the file manifest. The evidence directory
-inside it is named `submission_evidence_bundle_20261108`.
-
-**S17 real-data example.** From inside the extracted evidence directory:
+The source-side implementation for this manuscript is pinned at
+[5885481c66f29356e4ca65ba801b64b5d3e2c30a](https://github.com/liang110/ibd/tree/5885481c66f29356e4ca65ba801b64b5d3e2c30a).
+For scoring and figure sources, extract `IBD_PostFit_Reader_Evidence.zip` and
+run the commands below from the directory containing `Source_Index.csv`.
+Use Python 3.11 and the versions in `requirements-reader.txt`.
 
 ```shell
-python -B protocol_control_20261109/check_example.py --output-dir ../reader_results/s17
+python -B verify_package.py
+python -B protocol_control_20261109/check_example.py --output-dir ../reader_example
+python -B analysis/declaration/score_declaration.py --declaration analysis/declaration/nielsen_example.json --output ../declared_scores.csv --contrasts-output ../declared_contrasts.csv
+python -B analysis/import_case/run_import.py --bundle . --output ../reader_siamcat
+python -B replay_all.py --output ../reader_full
 ```
 
-The command checks the 3,850 PRISM→HMP2 shallow-MLP predictions against their
-registry, computes the 12 full-target A–D scores with all participant multiplicities
-equal to one, and compares the values to the archived outputs and independent
-reference. Expected AUROCs for A–D are 0.635197098, 0.728818779, 0.653456670
-and 0.749756573. The command writes `reader_check.json` and the invalid-input
-check results in the selected output directory.
-
-**Full weighted replay.** Run the following from this Git checkout in a
-Python 3.11 environment. In the Bash example, set `EVIDENCE` to the extracted
-evidence directory. The bundle contains `requirements-reader.txt` for the
-tested environment. `scripts/replay_registered.py` and the corresponding
-`validation/replay_registered.py` in the reader distribution implement the
-same registered replay.
-
-```bash
-EVIDENCE=/path/to/extracted/submission_evidence_bundle_20261108
-python -B scripts/replay_registered.py \
-  --predictions "${EVIDENCE}/evidence/full_reproducibility_inputs/prediction_registry.csv" \
-  --weights "${EVIDENCE}/evidence/full_reproducibility_inputs/shared_bootstrap_weights.csv" \
-  --output-dir results/postfit
-python -B "${EVIDENCE}/validation/check_replay_tables.py" --output-dir results/postfit
-```
-
-The evaluator consumes the archived participant multiplicities and writes
-252,000 draw-level metric records, 504 cell summaries, 630 within-family paired
-contrasts and 504 ranking entries. The optional comparison command matches the
-four output tables to the archive by scientific keys at absolute tolerance
-`1e-9`. The archive's top-level `README.md` also includes the independent
-statistical audit entry.
+The MLP example calculates twelve complete-target scores from ten runs on the
+same 385 HMP2 specimens. The declaration example uses HMP2-trained logistic
+regression on Nielsen to distinguish equal specimen weights, equal total weight
+per person with specimen predictions retained, and one mean prediction per
+person. The SIAMCAT adapter reads ten native exports. Full replay writes
+`reader_validation.json`, including checks of 504 principal cell summaries
+and 630 paired within-model contrasts. The ZIP's root README lists individual
+inputs, expected outputs and participant multiplicities.
 
 ## Source reconstruction commands
 
@@ -179,23 +166,19 @@ SIAMCAT baseline or as an independent-data replication.
 
 ## Manuscript and source data
 
-| Manuscript item | Content |
-|---|---|
-| Figures 1–2 | Evaluation workflow and A-cell AUROC benchmark |
-| Figure 3 | Paired changes in aggregation order and scoring unit |
-| Figure 4 | Ranking impact and stability |
-| Figure 5 | AUROC and Brier comparisons |
-| Main Tables 1–3 | Cohort composition, A-cell benchmark, and pre-analysis choice of A–D |
-| Supplementary Tables S1–S17 | Protocol definitions, sensitivity analyses, audits and the S17 point estimates |
-| Supplementary Data SD01–SD22 | Machine-readable evidence, commands, tests and file bindings |
+Use the current reader ZIP's root `Source_Index.csv` to locate figures, tables
+and Supplementary Data. It includes the publication item, input and output
+paths, row counts, columns and SHA-256 values. Figure and table numbers used by
+the source-fitting commit refer to the source-side analysis documentation.
 
-The reader distribution includes the study outputs and the authoritative figure
-and table mappings. Open `Main_Table_Source_Index_Final_20261109.csv`,
-`Supplementary_Source_Index_Final_20261109.csv` and
-`Figure_Source_Index_Final_20261108.csv` at its top level. Source paths in
-these indices are relative to its `submission_evidence_bundle_20261108/`
-directory. Main Table 3 gives the four use cases. Supplementary Table S17 gives
-the twelve point estimates for the PRISM→HMP2 example.
+| Manuscript item | Where to start |
+|---|---|
+| Main Table 2 and Figure 1 | Choose the four principal scoring rules or the participant-weighted specimen rule E. |
+| Main Table 3 and Table S17 | Score the twelve worked-example metrics from the project MLP predictions. |
+| Figures 2 and 3 | Check sampling denominators and the two changes along A to E to C. |
+| Figure 4 | Compare conditional changes in the leading family. |
+| Figure 5, Tables S20 and S23, SD24 | Inspect specimen eligibility and the twelve Nielsen source-by-family contrasts. |
+| Tables S16 and S21 | Locate reader commands and check the native SIAMCAT example. |
 
 ## Tests and checks
 
