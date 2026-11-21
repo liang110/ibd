@@ -209,6 +209,8 @@ the source-fitting commit refer to the source-side analysis documentation.
 | Figure 4 | Compare conditional changes in the leading family. |
 | Figure 5, Tables S20 and S23, SD24 | Inspect specimen eligibility and the twelve Nielsen source-by-family contrasts. |
 | Tables S16, S19 and S21 | Locate custom-input commands, E metric/weight checks and the native SIAMCAT example. |
+| Table S21, SD48 and SD49 | In the reader ZIP, use `analysis/native_control/README.md` for the R/SIAMCAT 2.14.0 AUROC comparison and `analysis/native_windows/README.md` for three specimen-eligibility declarations on the same exported probabilities. |
+| Table S24 and SD50 | Run `python -B analysis/pair_order/audit.py --bundle . --output ../reader_pair_order` from the extracted reader ZIP to recover the Nielsen case-control pair contributions. |
 
 ## Tests and checks
 
