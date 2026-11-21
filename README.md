@@ -9,9 +9,11 @@ participant multiplicities distributed in the accompanying evidence bundle.
 
 The benchmark uses 126 ordered canonical taxonomic coordinates from the
 HMP2–Franzosa feature intersection, six directed transfers and ten source-side
-perturbations. Four reporting objects cross the scoring unit (sample or participant)
+perturbations. Four principal reporting objects cross the scoring unit (sample or participant)
 with the prediction rule (metrics averaged across fitted predictors or metric
-computed once on averaged probabilities). The 500 shared target-participant
+computed once on averaged probabilities). A fifth rule (E) keeps each specimen
+prediction while giving each participant equal total weight on the complete target.
+The 500 shared target-participant
 bootstrap draws quantify uncertainty conditional on the observed cohort and fits.
 
 The 20% source reserve is used for source perturbation. Model selection uses
@@ -49,9 +51,9 @@ The predictors use microbial abundances. Reconstructing the manuscript HMP2
 panel also uses the provider's metabolomics specimen identifiers for eligibility.
 The identifier intersection contained 388 collections from 105 participants.
 Excluding three collections with zero abundance on the projected vocabulary
-retained 385 collections. The source reconstruction guide `SOURCE_RECONSTRUCTION.md`
-in the manuscript reader ZIP gives the sample-selection steps. The optional
-`--include-metabolome` switch controls the additional source audit.
+retained 385 collections. The manuscript-specific wrapper below prepares and
+checks this panel. The general contract builder and optional metabolome audit
+remain available for other input populations.
 
 The source training commands below reproduce the manuscript shallow-MLP
 configuration with `--allow-ungrouped-early-stopping`. The opt-in enables
@@ -78,14 +80,20 @@ SHA-256 values in a run manifest.
 2. Arrange each cohort according to `data/input_schema.md`; provide a sample table,
 a participant table, a binary outcome column and the cohort-specific feature matrix.
 Use the explicit cohort label allow-lists described in the Input boundary section.
-3. Put the permitted inputs under a local path such as
-`/path/to/cohort_inputs/{hmp2,prism,nielsen}` and place the sanitized configuration
-template under `configs/`. Do not change the ordered 126-coordinate contract after
-`build_data_contract.py` writes `contract_manifest.json`.
-4. Run the contract builder first, then the standard and reciprocal benchmark
-commands below. Each command writes to a separate directory under `results/`; the
-input contract, prediction table, shared participant weights and output manifest are
-retained together.
+3. Put `manual_abundance.csv`, `metabolites.csv`, `clean_metadata.csv`,
+`prism_abundance_clean.csv` and `prism_metadata_clean.csv` in one private flat
+directory, e.g. `/path/to/cohort_inputs/`. Provide the original IBDMDB metadata
+CSV by explicit path, and keep the Nielsen projection and manifest separate.
+4. Run the manuscript-specific contract command below in a **new private output
+directory** before using its contract for either benchmark command. The wrapper
+intersects microbial and metabolomic specimen identifiers with clean metadata
+and verifies that each matched HMP2 record maps to a distinct provider collection
+(`site_sub_coll`). It projects the matched records onto the shared vocabulary with
+the training loader, then checks specimen IDs, participant IDs and labels against
+both HMP2 target directions in the reader ZIP. The fixed commit's generic builder
+on unfiltered inputs includes 1,638 HMP2 profiles. Its optional metabolome audit
+writes a cohort manifest per modality to the same filename. Use the dedicated
+matched-panel command for the manuscript counts.
 5. To score the provided case study without refitting, use the commands under
    [Registered-result replay](#registered-result-replay).
 
@@ -101,6 +109,7 @@ Use Python 3.11 and the versions in `requirements-reader.txt`.
 python -B verify_package.py
 python -B protocol_control_20261109/check_example.py --output-dir ../reader_example
 python -B analysis/declaration/score_declaration.py --declaration analysis/declaration/nielsen_example.json --output ../declared_scores.csv --contrasts-output ../declared_contrasts.csv
+python -B examples/custom_panel/verify_example.py --output ../reader_custom
 python -B analysis/import_case/run_import.py --bundle . --output ../reader_siamcat
 python -B replay_all.py --output ../reader_full
 ```
@@ -114,15 +123,26 @@ person. The SIAMCAT adapter reads ten native exports. Full replay writes
 and 630 paired within-model contrasts. The ZIP's root README lists individual
 inputs, expected outputs and participant multiplicities.
 
+The custom example uses four synthetic participants and entirely new model/run
+identifiers. The first, up-to-two and all-specimen rules retain 4, 6 and 7
+specimens. Each rule yields 15 scores and 21 paired differences. Its reference
+calculation derives its weights from the eligible records. For the separate
+cohort-level checks of E see `analysis/unit/results/sampling_checks.json` and
+`analysis/unit/stability_2000/sampling_checks.json` in the ZIP. The independent
+metric checks use the full target and two draws; the Brier variance identity
+covers all corresponding draws.
+
 ## Source reconstruction commands
 
 ```bash
-python scripts/build_data_contract.py \
+python scripts/prepare_manuscript_contract.py \
   --legacy-root /path/to/cohort_inputs \
-  --output-dir results/contract
+  --provider-metadata /path/to/cohort_inputs/hmp2_metadata_2018-08-20.csv \
+  --prediction-registry /path/to/reader/evidence/full_reproducibility_inputs/prediction_registry.csv \
+  --output-dir /path/to/private/contract
 
 python scripts/run_standard_model_benchmark.py \
-  --contract-dir results/contract \
+  --contract-dir /path/to/private/contract \
   --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
@@ -130,7 +150,7 @@ python scripts/run_standard_model_benchmark.py \
   --output-dir results/standard_benchmark
 
 python scripts/run_reciprocal_nielsen_standard_benchmark.py \
-  --contract-dir results/contract \
+  --contract-dir /path/to/private/contract \
   --legacy-root /path/to/cohort_inputs \
   --nielsen-projection /path/to/nielsen_projection.csv \
   --nielsen-manifest /path/to/nielsen_manifest.csv \
@@ -143,6 +163,16 @@ python scripts/bootstrap_grouped_predictions.py \
   --group-columns direction,model,split \
   --aggregate-columns direction
 ```
+
+The reader ZIP supplies the same wrapper at `source_tools/prepare_manuscript_contract.py`
+for use with the installed source package at the pinned commit.
+`cohort_manifest_hmp2.csv` contains the 388 matched records supplied to the
+training loader. `hmp2_retained_manifest.csv` contains 385 positive-mass
+records, and `hmp2_exclusions.csv` lists the two CD and one control record
+excluded at projection. `hmp2_profile_eligibility.csv` records the status of
+each inventory profile. Keep these files private. The aggregate
+`hmp2_selection_check.json` records the 126-coordinate digest, original input
+digests and successful comparison to the target registry.
 
 The bootstrap example shows how to generate shared participant weights for a
 new source-side analysis. With `--aggregate-columns direction`, every model and
@@ -178,7 +208,7 @@ the source-fitting commit refer to the source-side analysis documentation.
 | Figures 2 and 3 | Check sampling denominators and the two changes along A to E to C. |
 | Figure 4 | Compare conditional changes in the leading family. |
 | Figure 5, Tables S20 and S23, SD24 | Inspect specimen eligibility and the twelve Nielsen source-by-family contrasts. |
-| Tables S16 and S21 | Locate reader commands and check the native SIAMCAT example. |
+| Tables S16, S19 and S21 | Locate custom-input commands, E metric/weight checks and the native SIAMCAT example. |
 
 ## Tests and checks
 
@@ -195,7 +225,7 @@ configuration, software versions, seeds, contract hash, canonicalizer hash, shar
 bootstrap weight manifest and output manifest. Use `docs/runtime_manifest_template.json`
 to record Python, platform, dependency versions, configuration hash, input hash,
 output hash and bootstrap-weight hash rather than relying on lower-bound dependency
-ranges. The source-reconstruction commands are `build_data_contract.py`,
+ranges. The manuscript source-reconstruction commands are `prepare_manuscript_contract.py`,
 `run_standard_model_benchmark.py` for four directions,
 `run_reciprocal_nielsen_standard_benchmark.py` for two directions, and
 `bootstrap_grouped_predictions.py --aggregate-columns direction`. For scoring from existing predictions and weights, see
