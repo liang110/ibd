@@ -93,7 +93,7 @@ def main() -> None:
     aggregate.to_csv(out / "synthetic_control_summary.csv", index=False)
     report = {
         "seeds": args.seeds,
-        "benchmark_version": "v2_prevalent_truth_features",
+        "benchmark_version": "prevalence_truth_feature_controls",
         "min_truth_prevalence": 0.30,
         "scenarios": aggregate.round(6).to_dict(orient="records"),
         "interpretation_rule": "Positive and negative controls must pass before portability stress results are interpretable.",

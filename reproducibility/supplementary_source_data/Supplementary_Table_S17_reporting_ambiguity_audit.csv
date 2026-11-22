@@ -1,5 +1,0 @@
-object,research_question,scoring_unit,probability_aggregation,metric_aggregation,AUROC,AP,Brier,delta_AUROC_vs_A
-A,What is the mean sample-level performance across source fits?,sample,none,mean over runs,0.635197098,0.814791218,0.233980555,0.000000000
-B,What is the sample-level performance of one ensemble probability?,sample,mean over runs,single metric,0.728818779,0.858090419,0.194410149,+0.093621681
-C,What is the mean participant-level performance across source fits?,participant,none,mean over runs after participant aggregation,0.653456670,0.844721448,0.222365890,+0.018259572
-D,What is the participant-level performance of one ensemble probability?,participant,mean over runs,single metric after participant aggregation,0.749756573,0.882928396,0.189904592,+0.114559474

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Create immutable data-contract artifacts from the frozen legacy inputs."""
+"""Create immutable data-contract artifacts from the permitted source inputs."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from ibd_microbiome_framework.data.contracts import MatrixSpec, write_contracts
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
         "--include-metabolome",
@@ -20,7 +20,7 @@ def main() -> None:
         help="Include optional metabolome matrices in the audit contract.",
     )
     args = parser.parse_args()
-    root = args.legacy_root.resolve()
+    root = args.source_root.resolve()
     specs = [
         MatrixSpec(
             "HMP2",

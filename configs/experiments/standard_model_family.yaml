@@ -1,4 +1,4 @@
-experiment_id: standard_model_family_v1
+experiment_id: standard_model_family
 task:
   endpoint: binary_ibd_vs_control
   modality: microbiome_species_only

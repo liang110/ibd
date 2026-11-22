@@ -1,7 +1,0 @@
-analysis,model_set,comparison,n_changed_directions,n_directions,count_text,changed_directions
-ranking_change_count,all_trainable,A_to_B,2,6,2/6,HMP2_to_NielsenHB_2014;NielsenHB_2014_to_PRISM
-ranking_change_count,all_trainable,A_to_C,2,6,2/6,PRISM_to_HMP2;PRISM_to_NielsenHB_2014
-ranking_change_count,all_trainable,A_to_D,4,6,4/6,HMP2_to_NielsenHB_2014;NielsenHB_2014_to_PRISM;PRISM_to_HMP2;PRISM_to_NielsenHB_2014
-ranking_change_count,exclude_mlp,A_to_B,0,6,0/6,
-ranking_change_count,exclude_mlp,A_to_C,2,6,2/6,PRISM_to_HMP2;PRISM_to_NielsenHB_2014
-ranking_change_count,exclude_mlp,A_to_D,2,6,2/6,PRISM_to_HMP2;PRISM_to_NielsenHB_2014

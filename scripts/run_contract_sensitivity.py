@@ -181,7 +181,7 @@ def _run_variant_direction(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract-dir", type=Path, required=True)
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--nielsen-projection", type=Path, required=True)
     parser.add_argument("--nielsen-manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -210,10 +210,10 @@ def main() -> None:
     prism_manifest_raw = pd.read_csv(prism_manifest_path)
     nielsen_manifest_raw = pd.read_csv(args.nielsen_manifest)
     hmp = load_canonical_microbiome(
-        args.legacy_root / "manual_abundance.csv", hmp_manifest_raw, shared
+        args.source_root / "manual_abundance.csv", hmp_manifest_raw, shared
     )
     prism = load_canonical_microbiome(
-        args.legacy_root / "prism_abundance_clean.csv", prism_manifest_raw, shared
+        args.source_root / "prism_abundance_clean.csv", prism_manifest_raw, shared
     )
     nielsen = load_canonical_microbiome(args.nielsen_projection, nielsen_manifest_raw, shared)
     hmp_manifest = _load_manifest(hmp_manifest_path, hmp)

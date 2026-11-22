@@ -83,7 +83,7 @@ def _subtype_rows(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract-dir", type=Path, required=True)
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--min-participants-per-class", type=int, default=20)
     args = parser.parse_args()
@@ -98,12 +98,12 @@ def main() -> None:
     shared_features = load_shared_feature_list(args.contract_dir)
     analyzable_ids = {
         "HMP2": load_canonical_microbiome(
-            args.legacy_root / "manual_abundance.csv",
+            args.source_root / "manual_abundance.csv",
             manifests["HMP2"],
             shared_features,
         ).index,
         "PRISM": load_canonical_microbiome(
-            args.legacy_root / "prism_abundance_clean.csv",
+            args.source_root / "prism_abundance_clean.csv",
             manifests["PRISM"],
             shared_features,
         ).index,

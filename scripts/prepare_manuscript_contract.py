@@ -137,7 +137,7 @@ def build(root, provider_metadata, registry, work, destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--legacy-root", required=True, type=Path, help="Flat permitted source directory")
+    parser.add_argument("--source-root", required=True, type=Path, help="Flat permitted source directory")
     parser.add_argument("--provider-metadata", required=True, type=Path, help="Original IBDMDB metadata CSV")
     parser.add_argument("--prediction-registry", required=True, type=Path, help="Reader ZIP registry CSV")
     parser.add_argument("--output-dir", required=True, type=Path, help="New private source contract directory")
@@ -149,7 +149,7 @@ def main():
     with TemporaryDirectory(dir=destination.parent) as temporary:
         staging = Path(temporary) / "contract"
         staging.mkdir()
-        build(args.legacy_root.resolve(), args.provider_metadata.resolve(),
+        build(args.source_root.resolve(), args.provider_metadata.resolve(),
               args.prediction_registry.resolve(), staging, destination)
         staging.rename(destination)
     print(f"Verified HMP2 matched and retained populations. Contract: {destination}")

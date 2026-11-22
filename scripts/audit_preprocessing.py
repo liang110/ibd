@@ -20,7 +20,7 @@ from ibd_microbiome_framework.preprocessing.compositional import CLRFeaturePipel
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract-dir", type=Path, required=True)
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--n-splits", type=int, default=5)
     args = parser.parse_args()
@@ -31,10 +31,10 @@ def main() -> None:
     prism_manifest = pd.read_csv(contract / "cohort_manifest_prism.csv")
     shared = load_shared_feature_list(contract)
     hmp2 = load_canonical_microbiome(
-        args.legacy_root / "manual_abundance.csv", hmp2_manifest, shared
+        args.source_root / "manual_abundance.csv", hmp2_manifest, shared
     )
     prism = load_canonical_microbiome(
-        args.legacy_root / "prism_abundance_clean.csv", prism_manifest, shared
+        args.source_root / "prism_abundance_clean.csv", prism_manifest, shared
     )
     hmp2_excluded = hmp2_manifest.loc[~hmp2_manifest["sample_id"].isin(hmp2.index)].copy()
     prism_excluded = prism_manifest.loc[~prism_manifest["sample_id"].isin(prism.index)].copy()

@@ -131,7 +131,7 @@ def _direction_records(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract-dir", type=Path, required=True)
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--nielsen-projection", type=Path, required=True)
     parser.add_argument("--nielsen-manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -139,7 +139,7 @@ def main() -> None:
     parser.add_argument(
         "--allow-ungrouped-early-stopping",
         action="store_true",
-        help="Legacy compatibility mode; not valid for participant-aware claims.",
+        help="Configuration sensitivity mode; not valid for participant-aware claims.",
     )
     args = parser.parse_args()
     out = args.output_dir.resolve()
@@ -151,9 +151,9 @@ def main() -> None:
     hmp_manifest = pd.read_csv(hmp_manifest_path)
     prism_manifest = pd.read_csv(prism_manifest_path)
     nielsen_manifest = pd.read_csv(args.nielsen_manifest)
-    hmp = load_canonical_microbiome(args.legacy_root / "manual_abundance.csv", hmp_manifest, shared)
+    hmp = load_canonical_microbiome(args.source_root / "manual_abundance.csv", hmp_manifest, shared)
     prism = load_canonical_microbiome(
-        args.legacy_root / "prism_abundance_clean.csv", prism_manifest, shared
+        args.source_root / "prism_abundance_clean.csv", prism_manifest, shared
     )
     nielsen = load_canonical_microbiome(args.nielsen_projection, nielsen_manifest, shared)
     hmp_manifest = _load_manifest(hmp_manifest_path, hmp)

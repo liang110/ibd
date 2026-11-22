@@ -49,5 +49,5 @@
   ],
   "numerical_conventions": "interface/Numerical_Conventions.json",
   "registered_replay_entry": "validation/replay_registered.py",
-  "complete_target_point_example": "protocol_control_20261109/check_example.py"
+  "complete_target_point_example": "examples/custom_panel/verify_example.py"
 }

@@ -21,7 +21,7 @@ def standard_model_candidates(
     data. The prevalence baseline has no hyperparameter selection by design.
     MLP automatic early stopping is disabled by default because scikit-learn's
     internal validation split is sample-based rather than participant-grouped.
-    The opt-in flag is retained only for legacy comparisons and must not be used
+    The opt-in flag is retained only for configuration sensitivity comparisons and must not be used
     for participant-aware claims.
     """
     candidates: dict[str, list[ClassifierMixin]] = {

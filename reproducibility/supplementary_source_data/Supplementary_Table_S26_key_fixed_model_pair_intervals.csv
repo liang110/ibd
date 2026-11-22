@@ -1,6 +1,0 @@
-direction,object,metric,model_1,model_2,signed_delta_model1_minus_model2,ci_low,ci_high,positive_draw_fraction,n_replicates,source_file
-HMP2_to_NielsenHB_2014,B,roc_auc,shallow_mlp,logistic_l2,0.0075120227602256335,-0.012552205448755724,0.031510436699236886,0.768,500,evidence/orthogonal_audit/orthogonal_cell_draws.csv
-HMP2_to_NielsenHB_2014,D,roc_auc,shallow_mlp,logistic_l2,0.003006254341681715,-0.017074687764342997,0.025388422647667313,0.612,500,evidence/orthogonal_audit/orthogonal_cell_draws.csv
-NielsenHB_2014_to_PRISM,B,roc_auc,shallow_mlp,logistic_l2,0.0384688536027885,0.014242272557943251,0.06379446934099077,1.0,500,evidence/orthogonal_audit/orthogonal_cell_draws.csv
-PRISM_to_HMP2,C,roc_auc,logistic_l2,linear_svm,0.01307428850783148,-0.026811470651367866,0.05326569426434395,0.732,500,evidence/orthogonal_audit/orthogonal_cell_draws.csv
-PRISM_to_NielsenHB_2014,C,roc_auc,logistic_l2,linear_svm,0.0038571555761362647,-0.018654984740279677,0.026434475436889857,0.654,500,evidence/orthogonal_audit/orthogonal_cell_draws.csv

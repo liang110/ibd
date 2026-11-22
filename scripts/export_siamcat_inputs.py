@@ -70,7 +70,7 @@ def _write_cohort(name: str, matrix: pd.DataFrame, manifest: pd.DataFrame, outpu
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract-dir", type=Path, required=True)
-    parser.add_argument("--legacy-root", type=Path, required=True)
+    parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--nielsen-projection", type=Path, required=True)
     parser.add_argument("--nielsen-manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -83,10 +83,10 @@ def main() -> None:
     prism_manifest_raw = pd.read_csv(args.contract_dir / "cohort_manifest_prism.csv")
     nielsen_manifest_raw = pd.read_csv(args.nielsen_manifest)
     hmp = load_canonical_microbiome(
-        args.legacy_root / "manual_abundance.csv", hmp_manifest_raw, shared
+        args.source_root / "manual_abundance.csv", hmp_manifest_raw, shared
     )
     prism = load_canonical_microbiome(
-        args.legacy_root / "prism_abundance_clean.csv", prism_manifest_raw, shared
+        args.source_root / "prism_abundance_clean.csv", prism_manifest_raw, shared
     )
     nielsen = load_canonical_microbiome(args.nielsen_projection, nielsen_manifest_raw, shared)
     summaries = [

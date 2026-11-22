@@ -34,7 +34,7 @@ def main() -> None:
     output.mkdir(parents=True, exist_ok=True)
 
     paths = {
-        "experiment_config": root / "configs/experiments/standard_model_family_v1.yaml",
+        "experiment_config": root / "configs/experiments/standard_model_family.yaml",
         "benchmark_runner": root / "scripts/run_standard_model_benchmark.py",
         "reciprocal_runner": root / "scripts/run_reciprocal_nielsen_standard_benchmark.py",
         "selection_engine": root / "src/ibd_microbiome_framework/evaluation/standard_benchmark.py",
