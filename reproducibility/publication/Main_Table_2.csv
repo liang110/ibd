@@ -1,0 +1,6 @@
+Rule,Intended use,Returned prediction and scoring,Target weight
+A,"Individual specimens, completed fits",Score each fit’s specimen probabilities and average the metrics.,Equal per specimen
+B,"Individual specimens, one ensemble","Average the probabilities across fits for each specimen, then score once.",Equal per specimen
+C,One score per person from each fit,Average eligible specimens within person and fit. Score each fit and average the metrics.,Equal per person
+D,One ensemble score per person,"Average across fits for each specimen, then within each person. Score once.",Equal per person
+E,"Individual specimens, equal participant weights","Score each fit using specimen weights, then average the metrics.","Equal per person, divided among eligible specimens"

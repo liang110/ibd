@@ -95,8 +95,9 @@ both HMP2 target directions in the permitted registered inputs. The fixed commit
 on unfiltered inputs includes 1,638 HMP2 profiles. Its optional metabolome audit
 writes a cohort manifest per modality to the same filename. Use the dedicated
 matched-panel command for the manuscript counts.
-5. To score the provided case study without refitting, use the commands under
-   [Registered-result replay](#registered-result-replay).
+5. To run the public synthetic case study without refitting, use the commands under
+   [Registered-result replay](#registered-result-replay). Full registered-result
+   replay uses permitted participant-level inputs described below.
 
 ## Registered-result replay
 
@@ -106,15 +107,16 @@ fail-closed fixtures, result-level tables, figure source CSVs, regional audit
 outputs and public_core_manifest.csv. Run these checks from that directory:
 
     python -m pip install -r requirements-reader.txt
-    python protocol_control_20261109/check_example.py --output-dir ../reader_protocol_control
     python examples/custom_panel/verify_example.py --output ../reader_custom
     python validation/contract_fixture/validate_fixture.py
     python validation/contract_fixture/validate_adversarial_fixture.py
 
 The declaration, SIAMCAT adapter and regional audit scripts are included for
-use with permitted cohort inputs. The full registered-result replay requires
-the participant-level prediction and multiplicity inputs described by the
-input schemas and the original provider access terms.
+use with permitted cohort inputs. The protocol-control implementation is the
+source-side reference for the registered control and requires its permitted
+fixture and participant-level registry. The full registered-result replay
+requires the participant-level prediction and multiplicity inputs described by
+the input schemas and the original provider access terms.
 
 ## Source reconstruction commands
 

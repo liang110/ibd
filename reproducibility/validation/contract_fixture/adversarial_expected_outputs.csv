@@ -1,0 +1,13 @@
+fixture,object,metric,value
+adversarial_nonperfect_ties,A,AUROC,0.7291666666666666
+adversarial_nonperfect_ties,A,AP,0.711111111111111
+adversarial_nonperfect_ties,A,Brier,0.2192857142857143
+adversarial_nonperfect_ties,B,AUROC,0.8333333333333333
+adversarial_nonperfect_ties,B,AP,0.8666666666666667
+adversarial_nonperfect_ties,B,Brier,0.19321428571428573
+adversarial_nonperfect_ties,C,AUROC,0.8125
+adversarial_nonperfect_ties,C,AP,0.7916666666666666
+adversarial_nonperfect_ties,C,Brier,0.2177777777777778
+adversarial_nonperfect_ties,D,AUROC,0.875
+adversarial_nonperfect_ties,D,AP,0.8333333333333333
+adversarial_nonperfect_ties,D,Brier,0.19527777777777777

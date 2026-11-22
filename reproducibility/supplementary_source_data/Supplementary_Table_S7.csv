@@ -1,0 +1,4 @@
+﻿Cohort,Manifest samples / participants,Samples in repeated-participant strata,Observed origin,Available fields and limitation
+HMP2,388 / 105,382,HMP2,"Origin, site and timepoint recorded; harmonized age, sex and treatment absent"
+PRISM,220 / 220,0,Discovery 155; validation 65,"Origin and timepoint recorded; harmonized age, sex and treatment absent; site placeholder"
+Nielsen,396 / 318,156,DNK 177; ESP 219,"Age 384/396; sex, origin and timepoint recorded; treatment/activity and laboratory batch not harmonized"

@@ -1,0 +1,16 @@
+direction,model,eligibility,n_specimens,n_participants,n_runs,accepted_draws,object,evaluation_record,target_weighting,within_person,across_runs,metric,point,bootstrap_mean,ci_low,ci_high
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,A,specimen,equal_specimens,retain_specimens,average_run_metrics,roc_auc,0.625,0.6537037037037037,0.6130555555555556,0.6975
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,A,specimen,equal_specimens,retain_specimens,average_run_metrics,average_precision,0.6944444444444444,0.713915343915344,0.5849206349206348,0.9269206349206349
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,A,specimen,equal_specimens,retain_specimens,average_run_metrics,brier,0.25,0.2576678240740741,0.24092881944444444,0.2809244791666667
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,B,specimen,equal_specimens,retain_specimens,average_probabilities,roc_auc,0.75,0.8222222222222223,0.6733333333333333,0.99
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,B,specimen,equal_specimens,retain_specimens,average_probabilities,average_precision,0.6388888888888888,0.687037037037037,0.48305555555555546,0.9791666666666666
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,B,specimen,equal_specimens,retain_specimens,average_probabilities,brier,0.20591517857142858,0.21483341600529102,0.20592757936507938,0.23110894097222223
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,C,participant,equal_participants,mean_probability,average_run_metrics,roc_auc,0.5,0.5,0.5,0.5
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,C,participant,equal_participants,mean_probability,average_run_metrics,average_precision,0.6666666666666666,0.6712962962962962,0.4333333333333333,0.842361111111111
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,C,participant,equal_participants,mean_probability,average_run_metrics,brier,0.2315673828125,0.23388671875,0.2130126953125,0.256732177734375
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,D,participant,equal_participants,mean_probability,average_probabilities,roc_auc,1.0,1.0,1.0,1.0
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,D,participant,equal_participants,mean_probability,average_probabilities,average_precision,1.0,1.0,1.0,1.0
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,D,participant,equal_participants,mean_probability,average_probabilities,brier,0.19024658203125,0.19864908854166666,0.19024658203125,0.2141937255859375
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,E,specimen,equal_participants,retain_specimens,average_run_metrics,roc_auc,0.625,0.6620370370370371,0.6270833333333333,0.6930555555555555
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,E,specimen,equal_participants,retain_specimens,average_run_metrics,average_precision,0.7542613636363636,0.7536898286898287,0.6242782217782218,0.8946443833943833
+ReaderSource_to_ReaderTarget,ReaderFit,all_retained,7,4,2,3,E,specimen,equal_participants,retain_specimens,average_run_metrics,brier,0.2523600260416667,0.2571614583333333,0.24648437500000003,0.2719197591145833

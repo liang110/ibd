@@ -1,0 +1,13 @@
+scope,direction,model,metric,contrast,point,ci_low,ci_high,n_participants,n_samples,interval_type,accepted_draws
+full,HMP2_to_NielsenHB_2014,logistic_l2,roc_auc,E_minus_A,0.011260232581859708,-0.0022920851116029458,0.02400986429292345,318,396,paired_percentile_95,2000
+full,HMP2_to_NielsenHB_2014,logistic_l2,roc_auc,C_minus_E,0.012053017775940589,0.0061308340861186165,0.018605158346233285,318,396,paired_percentile_95,2000
+full,PRISM_to_HMP2,shallow_mlp,roc_auc,E_minus_A,0.002424083197847593,-0.019091014018409534,0.026787724165987452,105,385,paired_percentile_95,2000
+full,PRISM_to_HMP2,shallow_mlp,roc_auc,C_minus_E,0.01583548843912841,0.005178413078703936,0.026564216688649056,105,385,paired_percentile_95,2000
+full,HMP2_to_PRISM,logistic_l2,roc_auc,E_minus_A,0.0,,,220,220,structural_zero,
+full,HMP2_to_PRISM,logistic_l2,roc_auc,C_minus_E,0.0,,,220,220,structural_zero,
+full,HMP2_to_NielsenHB_2014,logistic_l2,average_precision,E_minus_A,-0.08386387102243142,-0.11163110889860015,-0.0501985400863895,318,396,paired_percentile_95,2000
+full,HMP2_to_NielsenHB_2014,logistic_l2,average_precision,C_minus_E,-0.007222953451503256,-0.018307335435948563,0.00737992630599249,318,396,paired_percentile_95,2000
+full,PRISM_to_HMP2,shallow_mlp,average_precision,E_minus_A,0.01701648080891527,-0.004462869724442175,0.04254340752908585,105,385,paired_percentile_95,2000
+full,PRISM_to_HMP2,shallow_mlp,average_precision,C_minus_E,0.012913748557601967,0.0062974554280670865,0.022805720972184196,105,385,paired_percentile_95,2000
+full,HMP2_to_PRISM,logistic_l2,average_precision,E_minus_A,0.0,,,220,220,structural_zero,
+full,HMP2_to_PRISM,logistic_l2,average_precision,C_minus_E,0.0,,,220,220,structural_zero,

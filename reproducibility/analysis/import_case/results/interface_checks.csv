@@ -1,0 +1,6 @@
+case,observed,basis
+missing sample,rejected,incomplete prediction panel
+duplicated sample,rejected,duplicate run/sample key
+conflicting participant label,rejected,ambiguous ownership or outcome
+reversed positive probability,rejected,native positive-class anchor
+shuffled row order,invariant,mapped rows identical by key

@@ -1,0 +1,6 @@
+﻿Stage,Information used to fit,Prediction / scoring information,Information excluded from fitting
+Source selection split,Source participant IDs and labels,Source-only allocation,Target cohort
+Inner preprocessing,Inner-training rows and labels for MI,Apply fitted transform to inner validation,Inner-validation and target rows
+Inner scoring,Candidate model and fitted transform remain fixed,Inner-validation labels for selection score,Target rows and labels
+Final source refit,All eligible source rows and selected parameters,Apply final transform and model to target abundance,Target abundance and labels
+Locked target evaluation,No additional fitting,Target abundance for prediction; target labels for scoring,Target-driven changes to model or preprocessing

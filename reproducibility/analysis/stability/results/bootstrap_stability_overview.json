@@ -1,0 +1,27 @@
+{
+  "cell_summaries": {
+    "rows": 504,
+    "max_abs_shift_bootstrap_mean": 0.0036712050973223276,
+    "max_abs_shift_ci_low": 0.017552546861572482,
+    "max_abs_shift_ci_high": 0.011634483089816405,
+    "zero_interval_status_changes": 0
+  },
+  "paired_contrasts": {
+    "rows": 630,
+    "max_abs_shift_bootstrap_mean": 0.0016087769253221272,
+    "max_abs_shift_ci_low": 0.009297330847479017,
+    "max_abs_shift_ci_high": 0.00623561933206844,
+    "zero_interval_status_changes": 5
+  },
+  "fixed_pairs": {
+    "rows": 5,
+    "max_abs_shift_bootstrap_mean": 0.0004740178141302352,
+    "max_abs_shift_ci_low": 0.0012556673811233224,
+    "max_abs_shift_ci_high": 0.0019868971533302075,
+    "zero_interval_status_changes": 0
+  },
+  "leader_draw_changes": {
+    "rows": 36,
+    "max_abs_shift_fraction_changed": 0.03200000000000003
+  }
+}

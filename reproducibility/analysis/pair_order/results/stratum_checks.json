@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "models_by_source": 12,
+  "runs_per_cell": 10,
+  "participants": 318,
+  "full_target_case_control_pairs": 19352,
+  "complete_target_components_verified": 48,
+  "draw_components_verified": 24000,
+  "total_draws_verified": 6000,
+  "zero_mass_stratum_draws": 0,
+  "max_abs_difference_from_primary_components_or_sorted_total": 1.1102230246251565e-16,
+  "highest_absolute_total": {
+    "repeat_single": 12
+  },
+  "highest_absolute_mean_net": {
+    "repeat_single": 7,
+    "repeat_repeat": 4,
+    "single_repeat": 1
+  },
+  "repeated_Spanish_case_single_Danish_control_opportunities": 11682
+}

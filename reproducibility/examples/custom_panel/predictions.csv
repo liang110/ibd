@@ -1,0 +1,15 @@
+direction,model,run_id,sample_id,participant_id,y_true,y_prob
+ReaderSource_to_ReaderTarget,ReaderFit,17,s001,001,0,0.125
+ReaderSource_to_ReaderTarget,ReaderFit,17,s007,002,1,0.5625
+ReaderSource_to_ReaderTarget,ReaderFit,17,s003,002,1,0.25
+ReaderSource_to_ReaderTarget,ReaderFit,17,s019,003,0,0.8125
+ReaderSource_to_ReaderTarget,ReaderFit,17,s005,003,0,0.3125
+ReaderSource_to_ReaderTarget,ReaderFit,17,s014,003,0,0.1875
+ReaderSource_to_ReaderTarget,ReaderFit,17,s021,004,1,0.875
+ReaderSource_to_ReaderTarget,ReaderFit,93,s001,001,0,0.6875
+ReaderSource_to_ReaderTarget,ReaderFit,93,s007,002,1,0.375
+ReaderSource_to_ReaderTarget,ReaderFit,93,s003,002,1,0.75
+ReaderSource_to_ReaderTarget,ReaderFit,93,s019,003,0,0.4375
+ReaderSource_to_ReaderTarget,ReaderFit,93,s005,003,0,0.125
+ReaderSource_to_ReaderTarget,ReaderFit,93,s014,003,0,0.5625
+ReaderSource_to_ReaderTarget,ReaderFit,93,s021,004,1,0.3125

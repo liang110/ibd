@@ -1,0 +1,13 @@
+direction,replicate_id,participant_id,multiplicity
+ReaderSource_to_ReaderTarget,11,001,2
+ReaderSource_to_ReaderTarget,11,002,1
+ReaderSource_to_ReaderTarget,11,003,1
+ReaderSource_to_ReaderTarget,11,004,0
+ReaderSource_to_ReaderTarget,12,001,0
+ReaderSource_to_ReaderTarget,12,002,1
+ReaderSource_to_ReaderTarget,12,003,2
+ReaderSource_to_ReaderTarget,12,004,1
+ReaderSource_to_ReaderTarget,13,001,1
+ReaderSource_to_ReaderTarget,13,002,2
+ReaderSource_to_ReaderTarget,13,003,0
+ReaderSource_to_ReaderTarget,13,004,1

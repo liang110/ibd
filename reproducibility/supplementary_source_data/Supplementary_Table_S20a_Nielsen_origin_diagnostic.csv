@@ -1,0 +1,3 @@
+diagnostic,stratum,control_samples,IBD_samples,score_rule,sample_level_AUROC,participant_level_AUROC
+origin_only_pooled_Nielsen,DNK,177,0,"DNK=0, ESP=1",0.8568548387096774,0.875
+origin_only_pooled_Nielsen,ESP,71,148,"DNK=0, ESP=1",0.8568548387096774,0.875

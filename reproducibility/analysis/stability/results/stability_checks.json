@@ -1,0 +1,76 @@
+{
+  "prefix_records": 252000,
+  "prefix_max_abs_diff": 0.0,
+  "prefix_value_exact": 252000,
+  "weights_prefix_exact": true,
+  "directions": {
+    "HMP2_to_NielsenHB_2014": {
+      "participants": 318,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        0
+      ]
+    },
+    "HMP2_to_PRISM": {
+      "participants": 220,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        1
+      ]
+    },
+    "NielsenHB_2014_to_HMP2": {
+      "participants": 105,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        2
+      ]
+    },
+    "NielsenHB_2014_to_PRISM": {
+      "participants": 220,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        3
+      ]
+    },
+    "PRISM_to_HMP2": {
+      "participants": 105,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        4
+      ]
+    },
+    "PRISM_to_NielsenHB_2014": {
+      "participants": 318,
+      "prefix": 500,
+      "appended": 1500,
+      "attempted_new_draws": 1500,
+      "seed_sequence": [
+        20261121,
+        5
+      ]
+    }
+  },
+  "seed_rule": "PCG64 SeedSequence([20261121, sorted_direction_index]); iid uniform participant draws conditional on both classes",
+  "registry_sha256": "9eaa2d2ed73fba0d01183efe3b290169d1fdd41c3c528c6a27f2ef79b5d540f7",
+  "prefix_weights_sha256": "cabc553cc7079dd33b3e455781c9af0dfe6308acedd9a150943d1d53a7603d72",
+  "appended_weights_file_sha256": "5edf395517e1e6e0401a3abea0d0f4dfb87a9f2f3f30899a997a26ad9523e002",
+  "score_code_sha256": "99b8ba669fcf1211593aa147fd4059ec3d7c5180d5039b5460cd042549be3e30",
+  "bootstrap_rows": 1008000,
+  "plugin_rows": 504,
+  "constant_AUROC_exact": true
+}

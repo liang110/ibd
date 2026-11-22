@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "direction": "PRISM_to_HMP2",
+  "target": "HMP2",
+  "model": "SIAMCAT_lasso",
+  "endpoint": "recorded IBD status",
+  "positive_class": "IBD",
+  "positive_label": 1,
+  "label_policy": "fixed_within_participant",
+  "assessment_time": "at_first_retained_collection",
+  "eligibility": "earliest_retained",
+  "order_key": "retained_order",
+  "order_basis": "provider_study_week",
+  "expected_runs": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "metrics": [
+    "roc_auc",
+    "average_precision",
+    "brier"
+  ],
+  "ties": "half_credit_auroc_grouped_threshold_step_ap",
+  "draw_set": "shared_target_participant_multiplicities",
+  "expected_draws": 500,
+  "one_class": "reject_draw",
+  "point": "complete_eligible_target",
+  "interval": "participant_percentile_95_linear_within_draw_contrasts",
+  "rules": [
+    {
+      "object": "A",
+      "evaluation_record": "specimen",
+      "target_weighting": "equal_specimens",
+      "within_person": "retain_specimens",
+      "across_runs": "average_run_metrics"
+    },
+    {
+      "object": "C",
+      "evaluation_record": "participant",
+      "target_weighting": "equal_participants",
+      "within_person": "mean_probability",
+      "across_runs": "average_run_metrics"
+    },
+    {
+      "object": "E",
+      "evaluation_record": "specimen",
+      "target_weighting": "equal_participants",
+      "within_person": "retain_specimens",
+      "across_runs": "average_run_metrics"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+element,definition
+Scoring declaration,"Eligible specimens and time of use Target weights, returned prediction, metric"
+Target predictions,"Run, specimen and participant identifiers Binary label and positive-class probability"
+Common operation,Apply the declaration to the eligible predictions
+"A   Specimen, per run","Score each run on equally weighted specimens, then average the metrics."
+"B   Specimen, ensemble","Average runs for each specimen, then score equally weighted specimens."
+"C   Participant, per run","Within each run, score one mean per person. Average the run metrics."
+"D   Participant, ensemble","Average runs for each specimen, then score one mean per person."
+A → E → C   Equal total weight per person,A → E   Give each person equal total weight and keep each specimen prediction. E → C   Return the mean specimen probability for each person within each run.
+Output,Complete-target scores and paired differences on shared participant draws

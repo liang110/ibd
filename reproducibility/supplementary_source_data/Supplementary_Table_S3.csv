@@ -1,0 +1,5 @@
+﻿Direction,Model,AUROC,AP,Brier
+Discovery → validation,Logistic,0.789 ± 0.045,0.899 ± 0.021,0.228 ± 0.016
+Discovery → validation,Random forest,0.824 ± 0.019,0.914 ± 0.009,0.179 ± 0.013
+Validation → discovery,Logistic,0.881 ± 0.008,0.963 ± 0.004,0.117 ± 0.008
+Validation → discovery,Random forest,0.888 ± 0.006,0.968 ± 0.002,0.118 ± 0.001
