@@ -1,0 +1,10 @@
+{
+  "probability_input": "round-trip binary64 parsing of the registered text",
+  "probability_mean": "compute each arithmetic probability mean on the exact recorded binary64 inputs, round to binary64 once per averaging step",
+  "D_order": "mean probabilities over runs per sample, then mean of these ensemble probabilities per participant",
+  "equality": "exactly equal binary64 scores share one threshold; no global rounding or epsilon tie binning",
+  "AUROC": "weighted concordance with half credit for ties",
+  "AP": "step integral at distinct thresholds",
+  "quantile": "linear-interpolated empirical quantiles at 0.025 and 0.975",
+  "target_uncertainty": "consume saved two-class participant multiplicities shared within direction"
+}

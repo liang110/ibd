@@ -1,0 +1,12 @@
+{
+  "registry_slice_rows": 3850,
+  "values_checked": 12,
+  "max_abs_difference_to_reference": 1.1102230246251565e-16,
+  "max_abs_difference_to_archived": 2.220446049250313e-16,
+  "tolerance": 1e-12,
+  "rejected_cases": {
+    "cases.json": 7,
+    "interface_cases.json": 10
+  },
+  "result": "PASS"
+}

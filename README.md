@@ -2,8 +2,9 @@
 
 This code package supports the cross-cohort IBD post-fit evaluation protocol.
 The source-side commands rebuild model predictions from permitted cohort inputs.
-The registered-result replay scores the prediction registry with the saved
-participant multiplicities distributed in the accompanying evidence bundle.
+The public reproducibility core contains executable fixtures, result-level source tables,
+validation scripts and the source index. Permitted participant-level inputs remain outside
+the repository and are obtained from the original providers.
 
 ## Scope
 
@@ -90,7 +91,7 @@ intersects microbial and metabolomic specimen identifiers with clean metadata
 and verifies that each matched HMP2 record maps to a distinct provider collection
 (`site_sub_coll`). It projects the matched records onto the shared vocabulary with
 the training loader, then checks specimen IDs, participant IDs and labels against
-both HMP2 target directions in the reader ZIP. The fixed commit's generic builder
+both HMP2 target directions in the permitted registered inputs. The fixed commit's generic builder
 on unfiltered inputs includes 1,638 HMP2 profiles. Its optional metabolome audit
 writes a cohort manifest per modality to the same filename. Use the dedicated
 matched-panel command for the manuscript counts.
@@ -99,38 +100,21 @@ matched-panel command for the manuscript counts.
 
 ## Registered-result replay
 
-The source-side implementation for this manuscript is pinned at
-[5885481c66f29356e4ca65ba801b64b5d3e2c30a](https://github.com/liang110/ibd/tree/5885481c66f29356e4ca65ba801b64b5d3e2c30a).
-For scoring and figure sources, extract `IBD_PostFit_Reader_Evidence.zip` and
-run the commands below from the directory containing `Source_Index.csv`.
-Use Python 3.11 and the versions in `requirements-reader.txt`.
+The public reproducibility core is under reproducibility/. It contains the
+environment file, executable protocol-control and custom-panel examples,
+fail-closed fixtures, result-level tables, figure source CSVs, regional audit
+outputs and public_core_manifest.csv. Run these checks from that directory:
 
-```shell
-python -B verify_package.py
-python -B protocol_control_20261109/check_example.py --output-dir ../reader_example
-python -B analysis/declaration/score_declaration.py --declaration analysis/declaration/nielsen_example.json --output ../declared_scores.csv --contrasts-output ../declared_contrasts.csv
-python -B examples/custom_panel/verify_example.py --output ../reader_custom
-python -B analysis/import_case/run_import.py --bundle . --output ../reader_siamcat
-python -B replay_all.py --output ../reader_full
-```
+    python -m pip install -r requirements-reader.txt
+    python protocol_control_20261109/check_example.py --output-dir ../reader_protocol_control
+    python examples/custom_panel/verify_example.py --output ../reader_custom
+    python validation/contract_fixture/validate_fixture.py
+    python validation/contract_fixture/validate_adversarial_fixture.py
 
-The MLP example calculates twelve complete-target scores from ten runs on the
-same 385 HMP2 specimens. The declaration example uses HMP2-trained logistic
-regression on Nielsen to distinguish equal specimen weights, equal total weight
-per person with specimen predictions retained, and one mean prediction per
-person. The SIAMCAT adapter reads ten native exports. Full replay writes
-`reader_validation.json`, including checks of 504 principal cell summaries
-and 630 paired within-model contrasts. The ZIP's root README lists individual
-inputs, expected outputs and participant multiplicities.
-
-The custom example uses four synthetic participants and entirely new model/run
-identifiers. The first, up-to-two and all-specimen rules retain 4, 6 and 7
-specimens. Each rule yields 15 scores and 21 paired differences. Its reference
-calculation derives its weights from the eligible records. For the separate
-cohort-level checks of E see `analysis/unit/results/sampling_checks.json` and
-`analysis/unit/stability_2000/sampling_checks.json` in the ZIP. The independent
-metric checks use the full target and two draws; the Brier variance identity
-covers all corresponding draws.
+The declaration, SIAMCAT adapter and regional audit scripts are included for
+use with permitted cohort inputs. The full registered-result replay requires
+the participant-level prediction and multiplicity inputs described by the
+input schemas and the original provider access terms.
 
 ## Source reconstruction commands
 
@@ -164,8 +148,7 @@ python scripts/bootstrap_grouped_predictions.py \
   --aggregate-columns direction
 ```
 
-The reader ZIP supplies the same wrapper at `source_tools/prepare_manuscript_contract.py`
-for use with the installed source package at the pinned commit.
+The source-side wrapper and its input schema are available in the repository root for use with the installed source package at the pinned commit.
 `cohort_manifest_hmp2.csv` contains the 388 matched records supplied to the
 training loader. `hmp2_retained_manifest.csv` contains 385 positive-mass
 records, and `hmp2_exclusions.csv` lists the two CD and one control record
@@ -196,21 +179,22 @@ SIAMCAT baseline or as an independent-data replication.
 
 ## Manuscript and source data
 
-Use the current reader ZIP's root `Source_Index.csv` to locate figures, tables
-and Supplementary Data. It includes the publication item, input and output
-paths, row counts, columns and SHA-256 values. Figure and table numbers used by
-the source-fitting commit refer to the source-side analysis documentation.
+The reproducibility core under reproducibility/ contains the public source CSVs
+for figures, tables and Supplementary Data, together with result-level checks.
+public_core_manifest.csv records each included file, its schema-level role and
+SHA-256 digest. Cohort matrices, participant identifiers, specimen order and
+participant multiplicities are obtained through the original providers and are
+not redistributed in this repository.
 
 | Manuscript item | Where to start |
 |---|---|
 | Main Table 2 and Figure 1 | Choose the four principal scoring rules or the participant-weighted specimen rule E. |
-| Main Table 3 and Table S17 | Score the twelve worked-example metrics from the project MLP predictions. |
+| Main Table 3 and Table S17 | Inspect the worked-example result tables and the executable fixtures. |
 | Figures 2 and 3 | Check sampling denominators and the two changes along A to E to C. |
 | Figure 4 | Compare conditional changes in the leading family. |
-| Figure 5, Tables S20 and S23, SD24 | Inspect specimen eligibility and the twelve Nielsen source-by-family contrasts. |
+| Figure 5, Tables S20 and S23, SD24 | Inspect specimen eligibility and the Nielsen source-by-family contrasts. |
 | Tables S16, S19 and S21 | Locate custom-input commands, E metric/weight checks and the native SIAMCAT example. |
-| Table S21, SD48 and SD49 | In the reader ZIP, use `analysis/native_control/README.md` for the R/SIAMCAT 2.14.0 AUROC comparison and `analysis/native_windows/README.md` for three specimen-eligibility declarations on the same exported probabilities. |
-| Table S24 and SD50 | Run `python -B analysis/pair_order/audit.py --bundle . --output ../reader_pair_order` from the extracted reader ZIP. Table S24 separates each sampling group's contribution to the overall Nielsen AUROC difference from its mean signed change in concordance per case-control pair. SD50 reports the full-target sampling strata (48 rows). For the geographic analyses run `python -B analysis/pair_order/regional.py --bundle . --output ../reader_regional`. `rs_by_control_country.csv` splits repeat-case/single-control contributions by control country using the full Nielsen denominator (24 rows, 19,352 pairs). `spain_sampling_strata.csv` reports all four strata within Spain (48 rows, 4,838 pairs). The archived tables, participant draws for the regional contributions, and validation record are indexed under SD50. |
+| Table S24 and SD50 | Use reproducibility/analysis/pair_order/regional_results for the full-target country split and Spain-only strata. |
 
 ## Tests and checks
 
@@ -232,10 +216,9 @@ ranges. The manuscript source-reconstruction commands are `prepare_manuscript_co
 `run_reciprocal_nielsen_standard_benchmark.py` for two directions, and
 `bootstrap_grouped_predictions.py --aggregate-columns direction`. For scoring from existing predictions and weights, see
 [Registered-result replay](#registered-result-replay).
-The code-only package does not include the source
-manuscript, author metadata, funding statements, figures, derived result CSVs,
-or DOI archive identifiers; those artifacts must be linked in the versioned
-submission archive.
+The public repository contains the analysis code, fixtures, result-level tables
+and source index. Manuscript documents and administrative metadata are maintained
+with the submission materials.
 
 The default license is intentionally not assumed. Replace
 `LICENSE_PLACEHOLDER.txt` with the authors' approved license before public

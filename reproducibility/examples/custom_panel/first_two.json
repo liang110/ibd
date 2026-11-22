@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "direction": "ReaderSource_to_ReaderTarget",
+  "target": "ReaderTarget",
+  "model": "ReaderFit",
+  "endpoint": "synthetic fixed status",
+  "positive_class": "case",
+  "positive_label": 1,
+  "label_policy": "fixed_within_participant",
+  "assessment_time": "after_up_to_two_retained_collections",
+  "eligibility": "first_two_retained",
+  "order_key": "retained_order",
+  "order_basis": "fixture collection order",
+  "expected_runs": [
+    17,
+    93
+  ],
+  "metrics": [
+    "roc_auc",
+    "average_precision",
+    "brier"
+  ],
+  "ties": "half_credit_auroc_grouped_threshold_step_ap",
+  "draw_set": "shared_target_participant_multiplicities",
+  "expected_draws": 3,
+  "one_class": "reject_draw",
+  "point": "complete_eligible_target",
+  "interval": "participant_percentile_95_linear_within_draw_contrasts",
+  "rules": [
+    {
+      "object": "A",
+      "evaluation_record": "specimen",
+      "target_weighting": "equal_specimens",
+      "within_person": "retain_specimens",
+      "across_runs": "average_run_metrics"
+    },
+    {
+      "object": "B",
+      "evaluation_record": "specimen",
+      "target_weighting": "equal_specimens",
+      "within_person": "retain_specimens",
+      "across_runs": "average_probabilities"
+    },
+    {
+      "object": "C",
+      "evaluation_record": "participant",
+      "target_weighting": "equal_participants",
+      "within_person": "mean_probability",
+      "across_runs": "average_run_metrics"
+    },
+    {
+      "object": "D",
+      "evaluation_record": "participant",
+      "target_weighting": "equal_participants",
+      "within_person": "mean_probability",
+      "across_runs": "average_probabilities"
+    },
+    {
+      "object": "E",
+      "evaluation_record": "specimen",
+      "target_weighting": "equal_participants",
+      "within_person": "retain_specimens",
+      "across_runs": "average_run_metrics"
+    }
+  ]
+}

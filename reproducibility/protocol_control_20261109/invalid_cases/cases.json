@@ -1,0 +1,30 @@
+{
+  "duplicate_prediction_key": {
+    "mutation": "duplicate_key",
+    "expected": "FAIL"
+  },
+  "participant_label_conflict": {
+    "mutation": "label_conflict",
+    "expected": "FAIL"
+  },
+  "probability_out_of_range": {
+    "mutation": "probability_out_of_range",
+    "expected": "FAIL"
+  },
+  "incomplete_run_coverage": {
+    "mutation": "incomplete_runs",
+    "expected": "FAIL"
+  },
+  "multiplicity_participant_mismatch": {
+    "mutation": "weight_mismatch",
+    "expected": "FAIL"
+  },
+  "missing_scoring_declaration": {
+    "mutation": "missing_declaration",
+    "expected": "FAIL"
+  },
+  "single_class_draw": {
+    "mutation": "single_class",
+    "expected": "FAIL"
+  }
+}

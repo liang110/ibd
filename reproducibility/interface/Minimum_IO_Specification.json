@@ -1,0 +1,53 @@
+{
+  "prediction_fields": [
+    "direction",
+    "model",
+    "run_id",
+    "sample_id",
+    "participant_id",
+    "y_true",
+    "y_prob"
+  ],
+  "prediction_key": [
+    "direction",
+    "model",
+    "run_id",
+    "sample_id"
+  ],
+  "multiplicity_fields": [
+    "direction",
+    "replicate_id",
+    "participant_id",
+    "multiplicity"
+  ],
+  "metrics": [
+    "auroc",
+    "average_precision",
+    "brier"
+  ],
+  "reporting_objects": {
+    "A": "sample scoring with mean run-specific metrics",
+    "B": "sample scoring with probability ensemble",
+    "C": "participant scoring with mean run-specific metrics",
+    "D": "participant scoring with probability ensemble"
+  },
+  "baseline": "source_training_positive_fraction_as_constant_target_probability",
+  "bootstrap": {
+    "unit": "participant",
+    "accepted_replicates": 500,
+    "two_class_only": true,
+    "max_redraw_attempts": 100,
+    "shared_weights_across_models_runs_objects": true
+  },
+  "quantiles": "empirical_0.025_and_0.975_with_linear_interpolation",
+  "target_labels_used_for": "scoring_only",
+  "validity_checks": [
+    "unique_prediction_key",
+    "finite_probability_in_[0,1]",
+    "stable_labels_and_participants",
+    "paired_analysis_set_coverage"
+  ],
+  "numerical_conventions": "interface/Numerical_Conventions.json",
+  "registered_replay_entry": "validation/replay_registered.py",
+  "complete_target_point_example": "protocol_control_20261109/check_example.py"
+}
