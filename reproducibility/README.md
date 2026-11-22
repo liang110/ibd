@@ -14,3 +14,7 @@ The custom example uses four participants, seven ordered specimens and two predi
 The source workflow accepts permitted HMP2/IBDMDB, Franzosa and NielsenHB_2014 inputs. Raw cohort matrices, participant-level identifiers, prediction registries and bootstrap multiplicities remain subject to the original providers’ access terms.
 
 Result-level outputs for the manuscript are in `reproducibility/publication/` and `reproducibility/supplementary_source_data/`.
+
+## Manuscript result mapping
+
+The principal figure and main-table sources are named in `reproducibility/publication/`. The full-target worked example reported as Supplementary Table S17 is `reproducibility/supplementary_source_data/Supplementary_Table_S17.csv`; the native SIAMCAT summary reported as Supplementary Table S21 is `reproducibility/supplementary_source_data/Supplementary_Table_S21.csv`. Other supplementary source tables are in the same directory and retain their table-specific filenames.

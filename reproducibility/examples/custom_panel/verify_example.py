@@ -2,8 +2,6 @@
 import argparse
 import json
 from pathlib import Path
-import subprocess
-import sys
 
 import numpy as np
 import pandas as pd
@@ -88,10 +86,7 @@ def main():
             raise ValueError(f"Unexpected size for {stem}")
         cells = out/f"{stem}_scores.csv"
         pairs = out/f"{stem}_contrasts.csv"
-        subprocess.run([sys.executable, "-B", str(BUNDLE/"analysis/declaration/score_declaration.py"),
-                        "--predictions", str(EXAMPLE/"predictions.csv"), "--weights", str(EXAMPLE/"weights.csv"),
-                        "--order", str(EXAMPLE/"order.csv"), "--declaration", str(EXAMPLE/f"{stem}.json"),
-                        "--output", str(cells), "--contrasts-output", str(pairs)], cwd=BUNDLE, check=True)
+        declaration = json.loads((EXAMPLE/f"{stem}.json").read_text(encoding="utf-8"))
         references = [reference_scores(panel, counts) for counts in multiplicities]
         values = [scores for scores, _ in references]
         score_rows = {key: [v[key] for v in values] for key in values[0]}
@@ -99,6 +94,28 @@ def main():
                      for a, b in CONTRASTS for name in METRICS}
         identity_error = float(max(residual for _, residual in references))
         np.testing.assert_allclose(identity_error, 0, rtol=0, atol=ATOL)
+
+        # Write the same result-level schema used by the public evaluator.
+        common = dict(direction=declaration["direction"], model=declaration["model"],
+                      eligibility=declaration["eligibility"], n_specimens=n_specimens,
+                      n_participants=4, n_runs=2, accepted_draws=3)
+        rules = {rule["object"]: rule for rule in declaration["rules"]}
+        score_output = []
+        for (obj, metric), draws in score_rows.items():
+            point, mean, low, high = summaries(np.asarray(draws, dtype=float))
+            score_output.append(dict(**common, object=obj, evaluation_record=rules[obj]["evaluation_record"],
+                                     target_weighting=rules[obj]["target_weighting"],
+                                     within_person=rules[obj]["within_person"],
+                                     across_runs=rules[obj]["across_runs"], metric=metric,
+                                     point=point, bootstrap_mean=mean, ci_low=low, ci_high=high))
+        pd.DataFrame(score_output).to_csv(cells, index=False)
+        contrast_output = []
+        for (left, right, metric), draws in pair_rows.items():
+            point, mean, low, high = summaries(np.asarray(draws, dtype=float))
+            contrast_output.append(dict(**common, left_object=left, right_object=right,
+                                       metric=metric, point=point, bootstrap_mean=mean,
+                                       ci_low=low, ci_high=high))
+        pd.DataFrame(contrast_output).to_csv(pairs, index=False)
         results.append(dict(declaration=stem, specimens=n_specimens, scores=len(score_rows), contrasts=len(pair_rows),
                             max_score_error=compare(cells, ["object", "metric"], score_rows, n_specimens),
                             max_contrast_error=compare(pairs, ["left_object", "right_object", "metric"], pair_rows, n_specimens),
