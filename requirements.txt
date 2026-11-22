@@ -1,4 +1,4 @@
-# Direct dependencies used for the verified reader replay with CPython 3.11.
+# Minimal reader environment for the post-fit evaluation contract
 numpy==1.26.4
 pandas==2.2.0
 scipy==1.16.3

@@ -1,5 +1,0 @@
-cohort,span_population,units,participants,earliest_time_in_cohort,latest_time_in_cohort,min_span,q25_span,median_span,q75_span,max_span,all_participants_starting_at_zero
-HMP2,all,weeks,105,0.0,57.0,0.0,20.0,31.0,39.0,52.0,13
-HMP2,repeated,weeks,99,0.0,57.0,2.0,22.5,32.0,39.0,52.0,13
-Nielsen,all,days,318,0.0,494.0,0.0,0.0,0.0,0.0,494.0,317
-Nielsen,repeated,days,78,0.0,494.0,34.0,82.0,90.0,250.0,494.0,317

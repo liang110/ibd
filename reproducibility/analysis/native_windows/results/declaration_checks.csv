@@ -1,6 +1,0 @@
-case,result,exit_code,detail
-earliest_retained,accepted,0,declared scores and contrasts produced
-first_two_retained,accepted,0,declared scores and contrasts produced
-all_retained,accepted,0,declared scores and contrasts produced
-all specimens at first collection,rejected,1,ValueError: Scoring declaration at $.assessment_time: 'after_collection_of_all_retained_specimens' was expected
-restricted eligibility without order records,rejected,1,ValueError: Missing or tied within-participant order

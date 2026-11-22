@@ -21,25 +21,10 @@ data/private/
 *.svg
 *.log
 
-# The reproducibility directory is a curated public core. Only files selected
-# there are intended for version control. Participant-level source inputs stay
-# outside the directory and are not covered by these exceptions.
+# Keep the small reader interface and manuscript result tables.
 !reproducibility/
 !reproducibility/**/
-!reproducibility/public_core_manifest.csv
-!reproducibility/SOURCE_INDEX.csv
 !reproducibility/examples/custom_panel/**/*.csv
 !reproducibility/publication/**/*.csv
 !reproducibility/supplementary_source_data/**/*.csv
-!reproducibility/analysis/declaration/results/*.csv
-!reproducibility/analysis/import_case/results/*.csv
-!reproducibility/analysis/native_control/results/*.csv
-!reproducibility/analysis/native_windows/results/*.csv
-!reproducibility/analysis/pair_order/regional_results/*.csv
-!reproducibility/analysis/pair_order/results/*.csv
-!reproducibility/analysis/stability/results/*.csv
 !reproducibility/validation/contract_fixture/*.csv
-!reproducibility/evidence/orthogonal_audit/orthogonal_audit_sha256.csv
-!reproducibility/evidence/orthogonal_audit/orthogonal_cell_summary.csv
-!reproducibility/evidence/orthogonal_audit/orthogonal_paired_deltas.csv
-!reproducibility/evidence/orthogonal_audit/orthogonal_rankings.csv

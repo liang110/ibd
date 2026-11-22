@@ -1,6 +1,0 @@
-{
-  "S7": "2100 run-level direct scores, 5 within-runner specifications, 42 cells per specification",
-  "S8": "point estimates from eligible specimens, average of ten run-specific metrics (A), then mean over 42 cells; 500 original participant vectors projected to eligible specimens, accept both classes",
-  "MLP": "20,020 matched predictions, six directions and ten source perturbations, primary mapped to frozen cell summaries",
-  "absolute_tolerance": 1e-12
-}

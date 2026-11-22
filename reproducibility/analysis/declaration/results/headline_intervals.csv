@@ -1,7 +1,0 @@
-direction,model,scope,metric,contrast,eligible,object,accepted_draws,point,ci_low,ci_high
-HMP2_to_NielsenHB_2014,logistic_l2,full,average_precision,E_minus_A,all,,500,-0.08386387102243142,-0.11165507596350856,-0.05236391338363853
-HMP2_to_NielsenHB_2014,logistic_l2,full,average_precision,C_minus_E,all,,500,-0.007222953451503256,-0.01855834711847743,0.00673991026790576
-HMP2_to_NielsenHB_2014,logistic_l2,full,roc_auc,all_minus_first,all vs first,C,500,0.034621744522529974,0.00954867505607887,0.060620148981611686
-HMP2_to_NielsenHB_2014,logistic_l2,full,average_precision,E_minus_A,all,,2000,-0.08386387102243142,-0.11163110889860015,-0.0501985400863895
-HMP2_to_NielsenHB_2014,logistic_l2,full,average_precision,C_minus_E,all,,2000,-0.007222953451503256,-0.018307335435948563,0.00737992630599249
-HMP2_to_NielsenHB_2014,logistic_l2,full,roc_auc,all_minus_first,all vs first,C,2000,0.034621744522529974,0.009350974425249427,0.06032322758764389

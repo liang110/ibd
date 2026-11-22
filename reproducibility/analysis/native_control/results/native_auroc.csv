@@ -1,3 +1,0 @@
-"object","statistic","n_specimens","n_people","n_runs","positive_class","native_auroc","protocol_auroc","absolute_difference","tolerance"
-"A","mean(auroc.all)",385,105,10,"IBD","0.73623049548316455","0.73623049548316455","0","1e-12"
-"B","auroc",385,105,10,"IBD","0.73993977552696411","0.73993977552696411","0","1e-12"

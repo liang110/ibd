@@ -1,8 +1,0 @@
-{
-  "public_code_base_commit": "5885481c66f29356e4ca65ba801b64b5d3e2c30a",
-  "local_validation_fix_commit": "2a10d52fdab78c2cccb0267a24fdecd0ad13ad78",
-  "patch_file": "evidence/participant_label_validation.patch",
-  "patch_sha256": "d95925cd2b10a6c2a83f770732465d59bcac2a34cfa29e66ed461fc7762c50ba",
-  "code_manifest_commit": "8afc014",
-  "code_manifest_path": "code_manifest_sha256.csv"
-}
