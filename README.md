@@ -184,7 +184,8 @@ SIAMCAT baseline or as an independent-data replication.
 The reproducibility core under reproducibility/ contains the public source CSVs
 for figures, tables and Supplementary Data, together with result-level checks.
 public_core_manifest.csv records each included file, its schema-level role and
-SHA-256 digest. Cohort matrices, participant identifiers, specimen order and
+SHA-256 digest. The public-core release label is `postfit-contract-core-2026-11-22`.
+Cohort matrices, participant identifiers, specimen order and
 participant multiplicities are obtained through the original providers and are
 not redistributed in this repository.
 

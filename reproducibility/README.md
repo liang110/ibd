@@ -29,6 +29,8 @@ the 24-row full-target country summary and the 48-row Spain-only summary.
 `SOURCE_INDEX.csv` maps the public result files to their manuscript roles.
 `public_core_manifest.csv` records each included path, byte count and SHA-256.
 
+The public-core release label is `postfit-contract-core-2026-11-22`; its files are listed in `public_core_manifest.csv`.
+
 Source reconstruction uses permitted HMP2/IBDMDB, PRISM and NielsenHB_2014
 inputs from PRJNA398089, PRJNA400072 and PRJEB1220. The source-side
 implementation is pinned to commit

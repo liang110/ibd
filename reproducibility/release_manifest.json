@@ -1,0 +1,9 @@
+{
+  "release_label": "postfit-contract-core-2026-11-22",
+  "source_repository": "https://github.com/liang110/ibd",
+  "source_commit": "5885481c66f29356e4ca65ba801b64b5d3e2c30a",
+  "public_core_manifest": "public_core_manifest.csv",
+  "semantic_source_index": "SOURCE_INDEX.csv",
+  "participant_level_inputs": "access-controlled and excluded from this public core",
+  "build_date": "2026-11-22"
+}
