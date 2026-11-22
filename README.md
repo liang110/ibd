@@ -11,7 +11,7 @@ From the repository root:
     python reproducibility/validation/contract_fixture/validate_fixture.py
     python reproducibility/validation/contract_fixture/validate_adversarial_fixture.py
 
-The custom panel accepts prediction, specimen-order and participant-weight files and writes the A–E scores, paired contrasts and expected-output checks. The validation fixtures exercise malformed mappings and conflicting labels.
+The custom panel accepts prediction, specimen-order and participant-weight files and writes the A–E scores, paired contrasts, fixed expected-output comparisons and an independent reference check. The validation fixtures exercise malformed mappings and conflicting labels. Input-name mapping and manuscript result-file mapping are documented in `reproducibility/README.md`, including the canonical S16, S17, S19, S21 and S24 source filenames.
 
 ## Inputs and outputs
 
@@ -24,3 +24,4 @@ The source scripts and input schema accept permitted HMP2/IBDMDB, Franzosa and N
 ## License
 
 MIT.
+

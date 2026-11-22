@@ -9,12 +9,27 @@ Run from the repository root:
     python reproducibility/validation/contract_fixture/validate_fixture.py
     python reproducibility/validation/contract_fixture/validate_adversarial_fixture.py
 
-The custom example uses four participants, seven ordered specimens and two prediction runs. It returns the A–E objects, paired contrasts and an independent reference comparison. The validation fixtures test incomplete mappings and conflicting participant labels.
+The custom example uses four participants, seven ordered specimens and two prediction runs. It writes A–E scores and paired contrasts, compares them with fixed expected-output files and checks them with a separate grouped reference calculation. The validation fixtures test incomplete mappings, conflicting participant labels and other fail-closed conditions.
 
-The source workflow accepts permitted HMP2/IBDMDB, Franzosa and NielsenHB_2014 inputs. Raw cohort matrices, participant-level identifiers, prediction registries and bootstrap multiplicities remain subject to the original providers’ access terms.
+## Input names
 
-Result-level outputs for the manuscript are in `reproducibility/publication/` and `reproducibility/supplementary_source_data/`.
+The public reader uses `direction`, `model`, `run_id`, `sample_id`, `participant_id`, `y_true` and `y_prob`. The registered replay interface uses the following equivalent names:
 
-## Manuscript result mapping
+| Reader | Registered replay |
+|---|---|
+| `run_id` | `split` |
+| `y_true` | `outcome_ibd` |
+| `y_prob` | `probability` |
+| `participant_id` | `bootstrap_cluster` |
+| `replicate_id` | `replicate` |
+| `multiplicity` | `weight` |
 
-The principal figure and main-table sources are named in `reproducibility/publication/`. The full-target worked example reported as Supplementary Table S17 is `reproducibility/supplementary_source_data/Supplementary_Table_S17.csv`; the native SIAMCAT summary reported as Supplementary Table S21 is `reproducibility/supplementary_source_data/Supplementary_Table_S21.csv`. Other supplementary source tables are in the same directory and retain their table-specific filenames.
+The adapter preserves direction, model, specimen and participant keys, row counts, probabilities and non-negative multiplicities. Registered replay additionally requires the permitted prediction registry, retained-order table and participant multiplicities.
+
+## Data and result locations
+
+The source workflow accepts permitted HMP2/IBDMDB, Franzosa and NielsenHB_2014 inputs. Raw cohort matrices, participant-level identifiers, prediction registries, specimen-order mappings and bootstrap multiplicities remain subject to the original providers’ access terms. Result-level outputs for the manuscript are in `reproducibility/publication/` and `reproducibility/supplementary_source_data/`.
+
+The current manuscript mapping is explicit. Main tables and figures use the files in `reproducibility/publication/`. Supplementary Table S16 uses `Supplementary_Table_S16_reader_entry_points.csv`, S17 uses `Supplementary_Table_S17.csv`, S19 uses `Supplementary_Table_S19_AEC_decomposition.csv`, S21 uses `Supplementary_Table_S21.csv` and S24 uses `Supplementary_Table_S24_Nielsen_pair_attribution.csv`. The reporting-ambiguity and reporting-object decision-impact files are companion audits. Retained-mass, feature-cap and MLP sensitivity files use descriptive names and are not default sources for these table numbers.
+
+
