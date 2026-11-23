@@ -1,10 +1,5 @@
-﻿Cohort,Endpoint category,Samples,Participants,Binary endpoint
-HMP2/IBDMDB,Crohn's disease,179,49,IBD = 1
-HMP2/IBDMDB,Ulcerative colitis,102,30,IBD = 1
-HMP2/IBDMDB,Control,104,26,Control = 0
-PRISM,Crohn's disease,88,88,IBD = 1
-PRISM,Ulcerative colitis,76,76,IBD = 1
-PRISM,Control,56,56,Control = 0
-Nielsen,Crohn's disease,21,13,IBD = 1
-Nielsen,Ulcerative colitis,127,69,IBD = 1
-Nielsen,Control,248,236,Control = 0
+﻿Evidence,Input,Output,Interpretation
+Synthetic reader,Four-participant prediction panel with ordered specimens and weights,"A–D scores, diagnostic E score and paired contrasts",Runnable interface example
+Invalid declarations,"Missing order, duplicate keys, conflicting labels and incompatible eligibility",Rejected before scoring,Fail-closed behavior
+Franzosa→HMP2 worked example,"3,850 probabilities from ten fits on 385 specimens",A 0.6352; B 0.7288; C 0.6535; D 0.7498,Independent implementation agreement
+Native SIAMCAT exports,Ten specimen-level prediction columns,A 0.736230; B 0.739940,Native specimen-level positive control

@@ -1,13 +1,10 @@
-﻿Direction,Candidate,Reference,Participants,Mean ΔBrier [95% interval]
-H→N,Linear SVM,Random forest,318,"+0.000 [-0.019, +0.019]"
-H→N,L2 logistic,Random forest,318,"-0.058 [-0.083, -0.033]"
-H→P,Linear SVM,Random forest,220,"+0.035 [+0.007, +0.064]"
-H→P,L2 logistic,Random forest,220,"+0.059 [+0.030, +0.091]"
-N→H,Linear SVM,Random forest,105,"+0.094 [+0.059, +0.127]"
-N→H,L2 logistic,Random forest,105,"-0.015 [-0.038, +0.005]"
-N→P,Linear SVM,Random forest,220,"+0.015 [-0.010, +0.041]"
-N→P,L2 logistic,Random forest,220,"-0.026 [-0.044, -0.007]"
-P→H,Linear SVM,Random forest,105,"-0.037 [-0.074, -0.007]"
-P→H,L2 logistic,Random forest,105,"-0.040 [-0.087, +0.004]"
-P→N,Linear SVM,Random forest,318,"-0.074 [-0.091, -0.058]"
-P→N,L2 logistic,Random forest,318,"-0.112 [-0.139, -0.084]"
+﻿Control,Result,Interpretation,Status
+Semi-synthetic,Null,0.512 ± 0.035,10/10
+Semi-synthetic,Batch only,0.495 ± 0.050,10/10
+Semi-synthetic,Signal only,0.738 ± 0.076,8/10
+Semi-synthetic,Reversing batch,0.737 ± 0.063,7/10
+Semi-synthetic,Target-sample permutation within six background features,0.753 ± 0.034,10/10
+Scoring fixture,A,AUROC 1.000000; AP 1.000000; Brier 0.058000,Known-score check
+Scoring fixture,B,AUROC 1.000000; AP 1.000000; Brier 0.054000,Known-score check
+Scoring fixture,C,AUROC 1.000000; AP 1.000000; Brier 0.054583333333,Known-score check
+Scoring fixture,D,AUROC 1.000000; AP 1.000000; Brier 0.051875000000,Known-score check

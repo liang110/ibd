@@ -30,7 +30,7 @@
     "B": "sample scoring with probability ensemble",
     "C": "participant scoring with mean run-specific metrics",
     "D": "participant scoring with probability ensemble",
-    "E": "specimen scoring with equal total participant weights"
+    "E": "specimen scoring with equal total participant weights; diagnostic A→E→C decomposition, not a fifth primary object"
   },
   "baseline": "source_training_positive_fraction_as_constant_target_probability",
   "bootstrap": {
@@ -49,6 +49,6 @@
     "paired_analysis_set_coverage"
   ],
   "numerical_conventions": "interface/Numerical_Conventions.json",
-  "registered_replay_entry": "validation/replay_registered.py",
-  "complete_target_point_example": "examples/custom_panel/verify_example.py"
+  "complete_target_point_example": "examples/custom_panel/verify_example.py",
+  "frozen_prediction_replay_entry": "validation/replay_registered.py"
 }

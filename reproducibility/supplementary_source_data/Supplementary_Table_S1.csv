@@ -1,6 +1,5 @@
-﻿Scenario,Seeds,AUROC mean ± SD,Mean AP,Disease taxa recovered,Batch taxa selected,Passes
-Batch only,10,0.495 ± 0.050,0.512,1.6,1.4,10 / 10
-Null,10,0.512 ± 0.035,0.527,1.8,1.2,10 / 10
-Signal only,10,0.738 ± 0.076,0.737,5.1,1.0,8 / 10
-Reversing batch,10,0.737 ± 0.063,0.732,5.2,1.2,7 / 10
-Topology shift,10,0.753 ± 0.034,0.733,5.2,1.4,10 / 10
+﻿Cohort or stage,Retained or listed records,Participants,IBD / control records,Sampling structure
+HMP2,"385 retained / 388 matched / 1,595 collections",105 / 130 listed,281 / 104 retained,Longitudinal; 1–7 retained specimens
+Franzosa,220 / 220,220,164 / 56,One specimen per participant
+Nielsen,396 / 396,318,148 / 248,1–2 specimens; Danish controls only
+HMP2 inventory,"1,638 profiles → 1,595 collections → 388 matched → 385 analysed",130 → 105,Stage-specific counts in the repository,One profile per analysed collection

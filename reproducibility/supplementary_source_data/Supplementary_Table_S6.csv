@@ -1,6 +1,19 @@
-﻿Stage,Information used to fit,Prediction / scoring information,Information excluded from fitting
-Source selection split,Source participant IDs and labels,Source-only allocation,Target cohort
-Inner preprocessing,Inner-training rows and labels for MI,Apply fitted transform to inner validation,Inner-validation and target rows
-Inner scoring,Candidate model and fitted transform remain fixed,Inner-validation labels for selection score,Target rows and labels
-Final source refit,All eligible source rows and selected parameters,Apply final transform and model to target abundance,Target abundance and labels
-Locked target evaluation,No additional fitting,Target abundance for prediction; target labels for scoring,Target-driven changes to model or preprocessing
+﻿Audit,Target or source,Rule or pair group,Counts,Result
+Eligibility,P→H,Earliest,105 specimens / 105 people,A 0.6346; B 0.7308; C 0.6346; D 0.7308
+Eligibility,P→H,Up to two,204 specimens / 105 people,A 0.6212; B 0.7214; C 0.6374; D 0.7386
+Eligibility,P→H,All,385 specimens / 105 people,A 0.6352; B 0.7288; C 0.6535; D 0.7498
+Eligibility,H→N,Earliest,318 specimens / 318 people,A 0.7510; B 0.7510; C 0.7510; D 0.7510
+Eligibility,H→N,Up to two,396 specimens / 318 people,A 0.7623; B 0.7623; C 0.7857; D 0.7857
+Eligibility,H→N,All,396 specimens / 318 people,A 0.7623; B 0.7623; C 0.7857; D 0.7857
+Pair attribution,HMP2 / L2 logistic,SS / RS / SR / RR,0 / +0.03509 / −0.00010 / −0.00036,Total +0.03462; peak RS (+0.04593)
+Pair attribution,HMP2 / Elastic net,SS / RS / SR / RR,0 / +0.03118 / −0.00036 / −0.00087,Total +0.02995; peak RS (+0.04081)
+Pair attribution,HMP2 / Linear SVM,SS / RS / SR / RR,0 / +0.03020 / −0.00033 / −0.00088,Total +0.02899; peak RS (+0.03953)
+Pair attribution,HMP2 / Random forest,SS / RS / SR / RR,0 / +0.02043 / −0.00015 / +0.00076,Total +0.02105; peak RS (+0.02675)
+Pair attribution,HMP2 / XGBoost,SS / RS / SR / RR,0 / +0.01947 / −0.00037 / −0.00097,Total +0.01813; peak SR (−0.03698)
+Pair attribution,HMP2 / Shallow MLP,SS / RS / SR / RR,0 / +0.02049 / −0.00023 / −0.00016,Total +0.02010; peak RS (+0.02682)
+Pair attribution,Franzosa / L2 logistic,SS / RS / SR / RR,0 / −0.00501 / +0.00005 / −0.00041,Total −0.00537; peak RR (−0.01010)
+Pair attribution,Franzosa / Elastic net,SS / RS / SR / RR,0 / −0.01210 / +0.00007 / −0.00099,Total −0.01302; peak RR (−0.02424)
+Pair attribution,Franzosa / Linear SVM,SS / RS / SR / RR,0 / −0.00451 / −0.00005 / −0.00079,Total −0.00534; peak RR (−0.01919)
+Pair attribution,Franzosa / Random forest,SS / RS / SR / RR,0 / −0.03724 / −0.00018 / −0.00198,Total −0.03939; peak RS (−0.04875)
+Pair attribution,Franzosa / XGBoost,SS / RS / SR / RR,0 / −0.04189 / +0.00017 / −0.00202,Total −0.04374; peak RS (−0.05483)
+Pair attribution,Franzosa / Shallow MLP,SS / RS / SR / RR,0 / −0.00307 / −0.00004 / +0.00027,Total −0.00285; peak RR (+0.00657)

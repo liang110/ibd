@@ -1,8 +1,0 @@
-﻿Operation,Inputs,Outputs,Entry point
-Synthetic A–E example,"Synthetic predictions, specimen order and participant weights","A–E scores, paired contrasts and an independent comparison",examples/custom_panel/verify_example.py
-Input validation,Malformed prediction and label fixtures,Fail-closed validation results,validation/contract_fixture/
-Registered-result replay,"Permitted prediction registry, retained-order table and multiplicities","Registered draws, summaries and contrasts",validation/replay_registered.py; README
-Source reconstruction,Permitted cohort matrices and participant manifests,Feature coordinates and source-model predictions,README; permitted inputs
-Native SIAMCAT reference,Permitted native exports and target mapping,Native A/B and contract-level participant results,Supplementary_Table_S21.csv
-Published result tables,Figure/table-specific result CSVs,Reader-readable numeric outputs,publication/; supplementary_source_data/
-Reader setup,Pinned reader dependencies and command examples,"Installation, input and output locations",requirements.txt; README

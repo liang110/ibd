@@ -1,4 +1,33 @@
-﻿Cohort,Manifest samples / participants,Samples in repeated-participant strata,Observed origin,Available fields and limitation
-HMP2,388 / 105,382,HMP2,"Origin, site and timepoint recorded; harmonized age, sex and treatment absent"
-PRISM,220 / 220,0,Discovery 155; validation 65,"Origin and timepoint recorded; harmonized age, sex and treatment absent; site placeholder"
-Nielsen,396 / 318,156,DNK 177; ESP 219,"Age 384/396; sex, origin and timepoint recorded; treatment/activity and laboratory batch not harmonized"
+﻿Sensitivity,Comparison,AUROC,AP / Brier,Notes
+Feature contract,100 prevalence 0.10,0.6799 (max Δ 0.0291),AP 0.7581; Brier 0.2595,Source-processing specification
+Feature contract,126 prevalence 0.05,0.6626 (max Δ 0.0811),AP 0.7479; Brier 0.2708,Source-processing specification
+Feature contract,126 prevalence 0.10,0.6763 (max Δ 0.0000),AP 0.7558; Brier 0.2627,Source-processing specification
+Feature contract,126 prevalence 0.20,0.6770 (max Δ 0.0865),AP 0.7554; Brier 0.2557,Source-processing specification
+Feature contract,50 prevalence 0.10,0.6805 (max Δ 0.1095),AP 0.7501; Brier 0.2623,Source-processing specification
+Retained mass,None,0.6727,AP 0.7527; Brier 0.2531,Median records 385; valid draws 500
+Retained mass,≥0.25,0.6728,AP 0.7529; Brier 0.2531,Median records 385; valid draws 500
+Retained mass,≥0.50,0.6690,AP 0.7536; Brier 0.2536,Median records 368; valid draws 500
+Retained mass,≥0.75,0.6720,AP 0.7576; Brier 0.2577,Median records 202; valid draws 500
+Retained mass,≥0.90,0.6827,AP 0.8151; Brier 0.2526,Median records 38; valid draws 474
+Leading A cell,H→N,0.762342,AP 0.700017; Brier 0.187645,L2 logistic
+Leading A cell,H→P,0.864656,AP 0.946620; Brier 0.231840,L2 logistic
+Leading A cell,N→H,0.724559,AP 0.841431; Brier 0.272155,Random forest
+Leading A cell,N→P,0.734756,AP 0.901577; Brier 0.176941,L2 logistic
+Leading A cell,P→H,0.744951,AP 0.876155; Brier 0.171646,Linear SVM
+Leading A cell,P→N,0.660972,AP 0.606674; Brier 0.252029,Linear SVM
+Brier pair,H→N / Linear SVM,,"−0.0004 [−0.0192, 0.0190]",Random forest reference; n=318
+Brier pair,H→N / L2 logistic,,"−0.0591 [−0.0828, −0.0328]",Random forest reference; n=318
+Brier pair,H→P / Linear SVM,,"+0.0340 [0.0071, 0.0638]",Random forest reference; n=220
+Brier pair,H→P / L2 logistic,,"+0.0579 [0.0301, 0.0908]",Random forest reference; n=220
+Brier pair,N→H / Linear SVM,,"+0.0933 [0.0590, 0.1266]",Random forest reference; n=105
+Brier pair,N→H / L2 logistic,,"−0.0163 [−0.0377, 0.0055]",Random forest reference; n=105
+Brier pair,N→P / Linear SVM,,"+0.0139 [−0.0105, 0.0406]",Random forest reference; n=220
+Brier pair,N→P / L2 logistic,,"−0.0264 [−0.0443, −0.0074]",Random forest reference; n=220
+Brier pair,P→H / Linear SVM,,"−0.0370 [−0.0740, −0.0066]",Random forest reference; n=105
+Brier pair,P→H / L2 logistic,,"−0.0397 [−0.0875, 0.0037]",Random forest reference; n=105
+Brier pair,P→N / Linear SVM,,"−0.0751 [−0.0909, −0.0584]",Random forest reference; n=318
+Brier pair,P→N / L2 logistic,,"−0.1133 [−0.1389, −0.0841]",Random forest reference; n=318
+Franzosa split,Discovery → validation / L2 logistic,0.789 ± 0.045,AP 0.899 ± 0.021; Brier 0.228 ± 0.016,Source-group transfer
+Franzosa split,Discovery → validation / Random forest,0.824 ± 0.019,AP 0.914 ± 0.009; Brier 0.179 ± 0.013,Source-group transfer
+Franzosa split,Validation → discovery / L2 logistic,0.881 ± 0.008,AP 0.963 ± 0.004; Brier 0.117 ± 0.008,Source-group transfer
+Franzosa split,Validation → discovery / Random forest,0.888 ± 0.006,AP 0.968 ± 0.002; Brier 0.118 ± 0.001,Source-group transfer

@@ -1,43 +1,42 @@
-Direction,Model,A: sample / mean metric,B: sample / ensemble,C: participant / mean metric,D: participant / ensemble
-H→N,Elastic net,0.739,0.746,0.765,0.772
-H→N,Linear SVM,0.738,0.750,0.756,0.767
-H→N,L2 logistic,0.760,0.760,0.783,0.783
-H→N,Prevalence,0.500,0.500,0.500,0.500
-H→N,Random forest,0.743,0.749,0.754,0.760
-H→N,Shallow MLP,0.688,0.768,0.700,0.786
-H→N,XGBoost,0.733,0.740,0.737,0.745
-H→P,Elastic net,0.774,0.780,0.774,0.780
-H→P,Linear SVM,0.805,0.817,0.805,0.817
-H→P,L2 logistic,0.863,0.863,0.863,0.863
-H→P,Prevalence,0.500,0.500,0.500,0.500
-H→P,Random forest,0.752,0.766,0.752,0.766
-H→P,Shallow MLP,0.737,0.839,0.737,0.839
-H→P,XGBoost,0.705,0.714,0.705,0.714
-N→H,Elastic net,0.675,0.679,0.714,0.715
-N→H,Linear SVM,0.673,0.673,0.708,0.708
-N→H,L2 logistic,0.706,0.706,0.733,0.733
-N→H,Prevalence,0.500,0.500,0.500,0.500
-N→H,Random forest,0.728,0.729,0.760,0.762
-N→H,Shallow MLP,0.678,0.716,0.705,0.736
-N→H,XGBoost,0.718,0.720,0.742,0.748
-N→P,Elastic net,0.667,0.664,0.667,0.664
-N→P,Linear SVM,0.671,0.671,0.671,0.671
-N→P,L2 logistic,0.732,0.732,0.732,0.732
-N→P,Prevalence,0.500,0.500,0.500,0.500
-N→P,Random forest,0.698,0.700,0.698,0.700
-N→P,Shallow MLP,0.724,0.771,0.724,0.771
-N→P,XGBoost,0.677,0.680,0.677,0.680
-P→H,Elastic net,0.724,0.722,0.715,0.714
-P→H,Linear SVM,0.745,0.745,0.748,0.748
-P→H,L2 logistic,0.739,0.739,0.761,0.761
-P→H,Prevalence,0.500,0.500,0.500,0.500
-P→H,Random forest,0.682,0.685,0.722,0.721
-P→H,Shallow MLP,0.636,0.731,0.655,0.752
-P→H,XGBoost,0.700,0.699,0.717,0.715
-P→N,Elastic net,0.645,0.651,0.649,0.654
-P→N,Linear SVM,0.657,0.657,0.662,0.662
-P→N,L2 logistic,0.650,0.650,0.666,0.666
-P→N,Prevalence,0.500,0.500,0.500,0.500
-P→N,Random forest,0.521,0.521,0.523,0.524
-P→N,Shallow MLP,0.591,0.644,0.602,0.658
-P→N,XGBoost,0.532,0.531,0.514,0.513
+﻿Audit component,Direction or object,Model or set,Result,Interpretation
+Ranking,H→N / A,L2 logistic,76.4%,Winner frequency; change versus A: 0.0%
+Ranking,H→N / B,Shallow MLP,61.0%,Winner frequency; change versus A: 67.0%
+Ranking,H→N / C,L2 logistic,86.4%,Winner frequency; change versus A: 13.4%
+Ranking,H→N / D,Shallow MLP,50.6%,Winner frequency; change versus A: 59.2%
+Ranking,H→P / A,L2 logistic,100.0%,Winner frequency; change versus A: 0.0%
+Ranking,H→P / B,L2 logistic,99.4%,Winner frequency; change versus A: 0.6%
+Ranking,H→P / C,L2 logistic,100.0%,Winner frequency; change versus A: 0.0%
+Ranking,H→P / D,L2 logistic,99.4%,Winner frequency; change versus A: 0.6%
+Ranking,N→H / A,Random forest,59.6%,Winner frequency; change versus A: 0.0%
+Ranking,N→H / B,Random forest,51.4%,Winner frequency; change versus A: 23.0%
+Ranking,N→H / C,Random forest,68.8%,Winner frequency; change versus A: 22.0%
+Ranking,N→H / D,Random forest,63.6%,Winner frequency; change versus A: 27.6%
+Ranking,N→P / A,L2 logistic,65.0%,Winner frequency; change versus A: 0.0%
+Ranking,N→P / B,Shallow MLP,99.4%,Winner frequency; change versus A: 75.0%
+Ranking,N→P / C,L2 logistic,65.0%,Winner frequency; change versus A: 0.0%
+Ranking,N→P / D,Shallow MLP,99.4%,Winner frequency; change versus A: 75.0%
+Ranking,P→H / A,Linear SVM,57.8%,Winner frequency; change versus A: 0.0%
+Ranking,P→H / B,Linear SVM,46.8%,Winner frequency; change versus A: 27.0%
+Ranking,P→H / C,L2 logistic,61.0%,Winner frequency; change versus A: 46.2%
+Ranking,P→H / D,L2 logistic,36.8%,Winner frequency; change versus A: 64.6%
+Ranking,P→N / A,Linear SVM,68.0%,Winner frequency; change versus A: 0.0%
+Ranking,P→N / B,Linear SVM,49.6%,Winner frequency; change versus A: 29.8%
+Ranking,P→N / C,L2 logistic,62.4%,Winner frequency; change versus A: 43.2%
+Ranking,P→N / D,L2 logistic,42.6%,Winner frequency; change versus A: 60.6%
+MLP exclusion,A→B,All trainable,2/6,H→N; N→P
+MLP exclusion,A→C,All trainable,2/6,P→H; P→N
+MLP exclusion,A→D,All trainable,4/6,H→N; N→P; P→H; P→N
+MLP exclusion,A→B,Exclude MLP,0/6,—
+MLP exclusion,A→C,Exclude MLP,2/6,P→H; P→N
+MLP exclusion,A→D,Exclude MLP,2/6,P→H; P→N
+MLP run variation,H→N,shallow MLP,AUROC SD 0.1103; probability SD 0.1813 / P95 0.2518,Mean run correlation 0.4503
+MLP run variation,H→P,shallow MLP,AUROC SD 0.0979; probability SD 0.2158 / P95 0.2889,Mean run correlation 0.4162
+MLP run variation,N→H,shallow MLP,AUROC SD 0.0374; probability SD 0.1538 / P95 0.2406,Mean run correlation 0.7164
+MLP run variation,N→P,shallow MLP,AUROC SD 0.0538; probability SD 0.1645 / P95 0.2573,Mean run correlation 0.6245
+MLP run variation,P→H,shallow MLP,AUROC SD 0.0699; probability SD 0.2054 / P95 0.2774,Mean run correlation 0.2852
+MLP run variation,P→N,shallow MLP,AUROC SD 0.0594; probability SD 0.1858 / P95 0.2503,Mean run correlation 0.3020
+Fixed pair,H→N / B,MLP versus L2 logistic,"+0.0074 [[−0.0126, 0.0315]]",Positive draws 0.768
+Fixed pair,H→N / D,MLP versus L2 logistic,"+0.0029 [[−0.0171, 0.0254]]",Positive draws 0.612
+Fixed pair,N→P / B,MLP versus L2 logistic,"+0.0387 [[0.0142, 0.0638]]",Positive draws 1.000
+Fixed pair,P→H / C,L2 logistic versus SVM,"+0.0128 [[−0.0268, 0.0533]]",Positive draws 0.732
+Fixed pair,P→N / C,L2 logistic versus SVM,"+0.0038 [[−0.0187, 0.0264]]",Positive draws 0.654

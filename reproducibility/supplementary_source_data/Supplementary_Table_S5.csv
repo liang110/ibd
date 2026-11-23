@@ -1,91 +1,16 @@
-﻿Direction,Candidate,Reference,Mean ΔAUROC [95% interval],Source SDΔ
-H→N,L2 logistic,Elastic net,"0.021 [0.005, 0.038]",0.013
-H→N,L2 logistic,SVM,"0.023 [0.009, 0.035]",0.028
-H→N,L2 logistic,RF,"0.017 [-0.026, 0.061]",0.009
-H→N,L2 logistic,XGBoost,"0.027 [-0.007, 0.062]",0.007
-H→N,L2 logistic,MLP,"0.072 [0.046, 0.097]",0.110
-H→N,Elastic net,SVM,"0.002 [-0.010, 0.015]",0.017
-H→N,Elastic net,RF,"-0.004 [-0.053, 0.046]",0.015
-H→N,Elastic net,XGBoost,"0.006 [-0.026, 0.041]",0.016
-H→N,Elastic net,MLP,"0.051 [0.022, 0.079]",0.115
-H→N,SVM,RF,"-0.006 [-0.053, 0.041]",0.028
-H→N,SVM,XGBoost,"0.004 [-0.030, 0.039]",0.031
-H→N,SVM,MLP,"0.049 [0.020, 0.076]",0.121
-H→N,RF,XGBoost,"0.010 [-0.022, 0.044]",0.014
-H→N,RF,MLP,"0.055 [0.015, 0.095]",0.108
-H→N,XGBoost,MLP,"0.045 [0.010, 0.078]",0.112
-H→P,L2 logistic,Elastic net,"0.089 [0.057, 0.126]",0.023
-H→P,L2 logistic,SVM,"0.058 [0.029, 0.090]",0.045
-H→P,L2 logistic,RF,"0.111 [0.051, 0.168]",0.029
-H→P,L2 logistic,XGBoost,"0.158 [0.106, 0.209]",0.034
-H→P,L2 logistic,MLP,"0.126 [0.102, 0.151]",0.098
-H→P,Elastic net,SVM,"-0.031 [-0.049, -0.013]",0.024
-H→P,Elastic net,RF,"0.021 [-0.053, 0.095]",0.041
-H→P,Elastic net,XGBoost,"0.068 [0.008, 0.131]",0.041
-H→P,Elastic net,MLP,"0.036 [-0.003, 0.072]",0.103
-H→P,SVM,RF,"0.052 [-0.019, 0.118]",0.060
-H→P,SVM,XGBoost,"0.099 [0.041, 0.157]",0.052
-H→P,SVM,MLP,"0.067 [0.032, 0.102]",0.113
-H→P,RF,XGBoost,"0.047 [-0.012, 0.104]",0.050
-H→P,RF,MLP,"0.015 [-0.042, 0.075]",0.093
-H→P,XGBoost,MLP,"-0.032 [-0.090, 0.019]",0.118
-N→H,L2 logistic,Elastic net,"0.031 [0.002, 0.065]",0.004
-N→H,L2 logistic,SVM,"0.034 [0.004, 0.065]",0.000
-N→H,L2 logistic,RF,"-0.021 [-0.074, 0.039]",0.003
-N→H,L2 logistic,XGBoost,"-0.011 [-0.053, 0.032]",0.008
-N→H,L2 logistic,MLP,"0.028 [-0.003, 0.058]",0.037
-N→H,Elastic net,SVM,"0.003 [-0.034, 0.043]",0.004
-N→H,Elastic net,RF,"-0.052 [-0.131, 0.023]",0.005
-N→H,Elastic net,XGBoost,"-0.042 [-0.089, 0.003]",0.010
-N→H,Elastic net,MLP,"-0.003 [-0.050, 0.041]",0.037
-N→H,SVM,RF,"-0.055 [-0.122, 0.025]",0.003
-N→H,SVM,XGBoost,"-0.045 [-0.105, 0.007]",0.008
-N→H,SVM,MLP,"-0.006 [-0.054, 0.037]",0.037
-N→H,RF,XGBoost,"0.010 [-0.036, 0.061]",0.010
-N→H,RF,MLP,"0.049 [-0.007, 0.100]",0.038
-N→H,XGBoost,MLP,"0.039 [-0.007, 0.082]",0.042
-N→P,L2 logistic,Elastic net,"0.066 [0.042, 0.089]",0.035
-N→P,L2 logistic,SVM,"0.061 [0.035, 0.085]",0.000
-N→P,L2 logistic,RF,"0.035 [-0.026, 0.097]",0.020
-N→P,L2 logistic,XGBoost,"0.056 [-0.001, 0.123]",0.011
-N→P,L2 logistic,MLP,"0.008 [-0.019, 0.036]",0.054
-N→P,Elastic net,SVM,"-0.005 [-0.033, 0.022]",0.035
-N→P,Elastic net,RF,"-0.031 [-0.091, 0.034]",0.042
-N→P,Elastic net,XGBoost,"-0.010 [-0.069, 0.054]",0.043
-N→P,Elastic net,MLP,"-0.057 [-0.095, -0.019]",0.049
-N→P,SVM,RF,"-0.026 [-0.089, 0.039]",0.020
-N→P,SVM,XGBoost,"-0.005 [-0.069, 0.062]",0.011
-N→P,SVM,MLP,"-0.053 [-0.091, -0.016]",0.054
-N→P,RF,XGBoost,"0.021 [-0.018, 0.059]",0.020
-N→P,RF,MLP,"-0.027 [-0.084, 0.025]",0.062
-N→P,XGBoost,MLP,"-0.047 [-0.111, 0.012]",0.055
-P→H,L2 logistic,Elastic net,"0.015 [-0.020, 0.054]",0.019
-P→H,L2 logistic,SVM,"-0.005 [-0.035, 0.023]",0.000
-P→H,L2 logistic,RF,"0.057 [0.005, 0.105]",0.005
-P→H,L2 logistic,XGBoost,"0.039 [0.000, 0.082]",0.007
-P→H,L2 logistic,MLP,"0.103 [0.038, 0.163]",0.070
-P→H,Elastic net,SVM,"-0.020 [-0.054, 0.008]",0.019
-P→H,Elastic net,RF,"0.042 [-0.037, 0.108]",0.018
-P→H,Elastic net,XGBoost,"0.024 [-0.036, 0.077]",0.017
-P→H,Elastic net,MLP,"0.088 [0.023, 0.140]",0.064
-P→H,SVM,RF,"0.062 [-0.004, 0.127]",0.005
-P→H,SVM,XGBoost,"0.044 [-0.012, 0.096]",0.007
-P→H,SVM,MLP,"0.108 [0.047, 0.159]",0.070
-P→H,RF,XGBoost,"-0.018 [-0.048, 0.012]",0.009
-P→H,RF,MLP,"0.046 [-0.045, 0.125]",0.068
-P→H,XGBoost,MLP,"0.064 [-0.016, 0.138]",0.070
-P→N,L2 logistic,Elastic net,"0.005 [-0.021, 0.029]",0.030
-P→N,L2 logistic,SVM,"-0.007 [-0.027, 0.014]",0.000
-P→N,L2 logistic,RF,"0.129 [0.087, 0.170]",0.006
-P→N,L2 logistic,XGBoost,"0.118 [0.078, 0.161]",0.011
-P→N,L2 logistic,MLP,"0.059 [0.017, 0.098]",0.059
-P→N,Elastic net,SVM,"-0.012 [-0.037, 0.013]",0.030
-P→N,Elastic net,RF,"0.124 [0.074, 0.171]",0.029
-P→N,Elastic net,XGBoost,"0.113 [0.069, 0.159]",0.022
-P→N,Elastic net,MLP,"0.054 [0.014, 0.094]",0.061
-P→N,SVM,RF,"0.136 [0.090, 0.183]",0.006
-P→N,SVM,XGBoost,"0.125 [0.080, 0.170]",0.011
-P→N,SVM,MLP,"0.066 [0.024, 0.111]",0.060
-P→N,RF,XGBoost,"-0.011 [-0.033, 0.010]",0.013
-P→N,RF,MLP,"-0.070 [-0.123, -0.024]",0.058
-P→N,XGBoost,MLP,"-0.059 [-0.108, -0.017]",0.060
+﻿Target or summary,Metric,A / E / C or range,Paired contrast or range,Interpretation
+H→N,AUROC,0.7623 / 0.7736 / 0.7857,"E−A +0.0113 [−0.0023, 0.0240]; C−E +0.0121 [0.0061, 0.0186]",Shared participant draws
+H→N,AP,0.7000 / 0.6162 / 0.6089,"E−A −0.0839 [−0.1116, −0.0502]; C−E −0.0072 [−0.0183, 0.0074]",Shared participant draws
+H→N,Brier,0.1876 / 0.1734 / 0.1721,"E−A −0.0142 [−0.0208, −0.0077]; C−E −0.0014 [−0.0020, −0.0009]",Shared participant draws
+H→N (ESP),AUROC,0.7107 / 0.7196 / 0.7282,"E−A +0.0089 [−0.0157, 0.0272]; C−E +0.0086 [−0.0013, 0.0181]",Shared participant draws
+H→N (ESP),AP,0.8550 / 0.8127 / 0.8148,"E−A −0.0423 [−0.0633, −0.0220]; C−E +0.0022 [−0.0065, 0.0107]",Shared participant draws
+H→N (ESP),Brier,0.2274 / 0.2173 / 0.2142,"E−A −0.0100 [−0.0182, −0.0019]; C−E −0.0031 [−0.0043, −0.0020]",Shared participant draws
+P→H,AUROC,0.6352 / 0.6376 / 0.6535,"E−A +0.0024 [−0.0191, 0.0268]; C−E +0.0158 [0.0052, 0.0266]",Shared participant draws
+P→H,AP,0.8148 / 0.8318 / 0.8447,"E−A +0.0170 [−0.0045, 0.0425]; C−E +0.0129 [0.0063, 0.0228]",Shared participant draws
+P→H,Brier,0.2340 / 0.2314 / 0.2224,"E−A −0.0026 [−0.0104, 0.0048]; C−E −0.0090 [−0.0104, −0.0078]",Shared participant draws
+HMP2,Summary,,AP E−A +0.0082 to +0.0268; AUROC C−E +0.0046 to +0.0231; all-minus-earliest +0.0048 to +0.0513,Range across model families
+Nielsen,Summary,,AP E−A −0.1197 to −0.0839; AUROC C−E −0.0167 to +0.0144; all-minus-earliest −0.0437 to +0.0346,Range across model families
+"Nielsen, HMP2 source",Summary,,AP E−A −0.1153 to −0.0839; AUROC C−E −0.0055 to +0.0125; all-minus-earliest +0.0181 to +0.0346,Range across model families
+"Nielsen, Franzosa source",Summary,,AP E−A −0.1197 to −0.1099; AUROC C−E −0.0167 to +0.0144; all-minus-earliest −0.0437 to −0.0028,Range across model families
+Franzosa,Summary,,AP E−A 0.0000 to 0.0000; AUROC C−E 0.0000 to 0.0000; all-minus-earliest One specimen per person,Range across model families
+H→N L2,Case fraction,A 0.3737; E 0.2579,Raw AP change −0.0839,Report AP with its weighted case fraction

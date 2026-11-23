@@ -1,7 +1,8 @@
-﻿Quantity,Value,Definition
-Seeds,10,Fixed source/control seeds
-Random-sample AUROC,0.945,Mean across seeds
-Participant-grouped AUROC,0.464,Mean across seeds
-Random-split participant overlap,43,Mean across seeds
-Grouped participant overlap,0,Maximum across seeds
-Forbidden-field rejection,10 / 10,Fecal.Calprotectin guard; ValueError containing “forbidden”
+﻿Contract field,Required content
+Prediction record,"Direction, model, run, specimen, participant, binary endpoint and positive-class probability"
+Eligibility,Ordered retained specimens and the assessment time at which each record is available
+Weights,Equal specimen weighting for A/B; equal participant weighting for C/D; equal participant total weight for E
+Aggregation,"Across-run rule, within-participant rule and the returned prediction"
+Resampling,"Participant multiplicities shared across models, metrics and reporting objects"
+Output,"Complete-target score, participant-bootstrap interval, counts and paired contrasts"
+Validation,"Reject duplicate or missing keys, conflicting labels, invalid probabilities, incomplete coverage and incompatible order"

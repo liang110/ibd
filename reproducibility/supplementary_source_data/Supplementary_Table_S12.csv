@@ -1,5 +1,0 @@
-﻿Cell,Scientific use,Scored object / unit,Interpretation to avoid
-A,Average performance of one executed base predictor on samples,Average run metrics; sample records,Do not call this ensemble performance
-B,Evaluate a specified sample-level probability ensemble,Metric of averaged probabilities; samples,Do not select this object only because its target score is largest
-C,Average base-predictor performance after participant aggregation,Within-participant mean probabilities; then average run metrics,Do not describe it as pure inverse-cluster-size weighting
-D,Evaluate a specified participant-level ensemble,One ensemble probability per participant,Do not reuse the A-cell uncertainty
