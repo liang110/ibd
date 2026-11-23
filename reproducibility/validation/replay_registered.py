@@ -14,10 +14,12 @@ METRICS = ("roc_auc", "average_precision", "brier")
 MODEL_ORDER = ("prevalence_baseline", "logistic_l2", "elastic_net", "linear_svm",
                "random_forest", "xgboost", "shallow_mlp")
 OBJECTS = {"A": ("sample", "split_metric_mean"), "B": ("sample", "ensemble_probability"),
-           "C": ("participant", "split_metric_mean"), "D": ("participant", "ensemble_probability")}
+           "C": ("participant", "split_metric_mean"), "D": ("participant", "ensemble_probability"),
+           "E": ("sample", "participant_weighted_split_metric")}
 CONTRASTS = {"aggregation_order_sample": ("B", "A"), "aggregation_order_participant": ("D", "C"),
              "participant_unit_split_metric": ("C", "A"), "participant_unit_ensemble": ("D", "B"),
-             "joint_D_minus_A": ("D", "A")}
+             "joint_D_minus_A": ("D", "A"), "participant_weighted_split_metric": ("E", "A"),
+             "within_person_averaging": ("C", "E")}
 KEY = ["direction", "model", "metric"]
 FIELDS = {
     "orthogonal_cell_draws": KEY + ["cell", "replicate", "value", "n_target_samples", "n_target_participants"],
@@ -81,15 +83,22 @@ def direction_inputs(predictions, draws):
 
 
 def four_scores(prob, y, labels, groups, stool_weights, person_weights):
-    sample_results, person_results = [], []
+    sample_results, balanced_sample_results, person_results = [], [], []
+    specimen_counts = np.asarray([len(group) for group in groups], dtype=float)
+    sample_to_person_count = np.concatenate([
+        np.full(len(group), count) for group, count in zip(groups, specimen_counts)
+    ])
+    balanced_stool_weights = stool_weights / sample_to_person_count[None, :]
     for run in prob:
         sample_results.append(score(y, run, stool_weights))
+        balanced_sample_results.append(score(y, run, balanced_stool_weights))
         patient = np.array([mean_probability(run[group]) for group in groups])
         person_results.append(score(labels, patient, person_weights))
     ensemble = np.array([mean_probability(col) for col in prob.T])
     person_ensemble = np.array([mean_probability(ensemble[group]) for group in groups])
     return {"A": average_scores(sample_results, y, stool_weights), "B": score(y, ensemble, stool_weights),
-            "C": average_scores(person_results, labels, person_weights), "D": score(labels, person_ensemble, person_weights)}
+            "C": average_scores(person_results, labels, person_weights), "D": score(labels, person_ensemble, person_weights),
+            "E": average_scores(balanced_sample_results, y, balanced_stool_weights)}
 
 
 def average_scores(results, labels, weights):

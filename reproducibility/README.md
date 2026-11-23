@@ -11,6 +11,10 @@ Run from the repository root:
 
 The custom example uses four participants, seven ordered specimens and two prediction runs. It writes A–E scores and paired contrasts, compares them with fixed expected-output files and checks them with a separate grouped reference calculation. The validation fixtures test incomplete mappings, conflicting participant labels and other fail-closed conditions.
 
+## Reproduction workflow
+
+For source reconstruction, obtain the HMP2/IBDMDB, Franzosa/PRISM and NielsenHB_2014 inputs under the original provider terms, prepare the permitted feature and participant files, and run the source-side workflow to create the prediction registry and direction-specific participant multiplicities. This step refits the declared source models. For result replay, start from an existing permitted prediction registry, retained-order table and multiplicity table, validate their keys, labels and probabilities, and run `validation/replay_registered.py`; this path performs no model fitting. Both paths write the A–E result tables described below, and the fixed synthetic example provides an executable prediction-to-object check before using cohort inputs.
+
 ## Input names
 
 The public reader uses `direction`, `model`, `run_id`, `sample_id`, `participant_id`, `y_true` and `y_prob`. The registered replay interface uses the following equivalent names:

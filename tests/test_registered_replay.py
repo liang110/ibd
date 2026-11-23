@@ -45,9 +45,10 @@ def test_registered_cli_scores_ties_with_stored_multiplicities(replay_inputs):
     assert result.returncode == 0, result.stderr
     draw_rows = pd.read_csv(replay_inputs / "out" / "orthogonal_cell_draws.csv")
     scored = draw_rows.set_index(["cell", "metric", "replicate"]).value
-    assert len(scored) == 24
+    assert len(scored) == 30
     for draw, (sample_rate, person_rate) in enumerate([(3 / 5, 1 / 3), (6 / 7, 2 / 3)]):
-        for cell, rate in [("A", sample_rate), ("B", sample_rate), ("C", person_rate), ("D", person_rate)]:
+        for cell, rate in [("A", sample_rate), ("B", sample_rate), ("C", person_rate),
+                           ("D", person_rate), ("E", sample_rate)]:
             assert scored[cell, "roc_auc", draw] == 0.5
             assert scored[cell, "average_precision", draw] == pytest.approx(rate)
             assert scored[cell, "brier", draw] == pytest.approx(rate * 0.9**2 + (1 - rate) * 0.1**2)

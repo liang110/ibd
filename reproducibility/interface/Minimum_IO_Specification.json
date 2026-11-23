@@ -29,7 +29,8 @@
     "A": "sample scoring with mean run-specific metrics",
     "B": "sample scoring with probability ensemble",
     "C": "participant scoring with mean run-specific metrics",
-    "D": "participant scoring with probability ensemble"
+    "D": "participant scoring with probability ensemble",
+    "E": "specimen scoring with equal total participant weights"
   },
   "baseline": "source_training_positive_fraction_as_constant_target_probability",
   "bootstrap": {
