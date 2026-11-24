@@ -26,8 +26,8 @@ FIELDS = {
     "orthogonal_cell_summary": KEY + ["evaluation_unit", "source_aggregation", "cell", "plugin_point_estimate",
                                       "bootstrap_mean", "ci_low", "ci_high", "n_target_samples",
                                       "n_target_participants", "n_source_perturbations", "n_bootstrap"],
-    "orthogonal_paired_deltas": KEY + ["contrast", "left_cell", "right_cell", "delta_bootstrap_mean",
-                                       "ci_low", "ci_high", "ci_excludes_zero"],
+    "orthogonal_paired_deltas": KEY + ["contrast", "left_cell", "right_cell", "full_target_difference",
+                                       "delta_bootstrap_mean", "ci_low", "ci_high", "ci_excludes_zero"],
     "orthogonal_rankings": ["direction", "metric", "cell", "rank", "model", "bootstrap_mean", "directionality"],
 }
 
@@ -138,8 +138,9 @@ def write_direction(direction, pred, draws, writers):
             for name, (left, right) in CONTRASTS.items():
                 differences = result[left][mi, 1:] - result[right][mi, 1:]
                 mean, low, high = describe(differences)
+                full_target_difference = float(result[left][mi, 0] - result[right][mi, 0])
                 writers["orthogonal_paired_deltas"].writerow([direction, model, metric, name, left, right,
-                    mean, low, high, low > 0 or high < 0])
+                    full_target_difference, mean, low, high, low > 0 or high < 0])
     for (metric, cell), pairs in ranks.items():
         reverse = metric != "brier"
         priority = {name: i for i, name in enumerate(MODEL_ORDER)}

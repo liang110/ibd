@@ -15,7 +15,7 @@ The same fixture can be replayed from its prediction and participant-multiplicit
 
     python scripts/replay_registered.py --predictions reproducibility/examples/custom_panel/predictions.csv --weights reproducibility/examples/custom_panel/weights.csv --output-dir reader_replay
 
-The replay writes cell summaries, cell-level draws, paired contrasts and rankings.
+The replay writes cell summaries, cell-level draws, paired contrasts and rankings. Each paired-contrast row keeps the complete-target difference separate from the bootstrap-draw mean and interval.
 
 ## Reproduction workflow
 
@@ -24,9 +24,9 @@ For source reconstruction, obtain the HMP2/IBDMDB, Franzosa/PRISM and NielsenHB_
     python scripts/prepare_manuscript_contract.py --source-root <permitted-source-root> --provider-metadata <provider-metadata.csv> --prediction-registry <prediction-registry.csv> --output-dir <private-contract-dir>
     python scripts/run_standard_model_benchmark.py --contract-dir <private-contract-dir> --source-root <permitted-source-root> --nielsen-projection <nielsen-projection.csv> --nielsen-manifest <nielsen-manifest.csv> --output-dir <private-results>
 
-This path refits the declared source models and requires permitted local cohort inputs. For frozen-prediction replay, start from an existing permitted prediction registry, retained-order table and participant multiplicity table, validate their keys, labels and probabilities and run the replay command above. This path performs no model fitting. Both paths use the same A–D interface and emit the diagnostic E object for the A→E→C decomposition.
+This path refits the declared source models and requires permitted local cohort inputs. For frozen-prediction replay, start from an existing permitted prediction registry, retained-order table and participant multiplicity table, validate their keys, labels and probabilities and run the replay command above. This path performs no model fitting and returns the declared A–E objects. Both paths use the same A–D interface and emit the diagnostic E object for the A→E→C decomposition. The fixed comparator set and source-side selection settings are declared in `configs/experiments/standard_model_family.yaml`. The public default keeps estimator-internal MLP early stopping disabled, and the manuscript comparator setting is selected explicitly by the benchmark command.
 
-The manuscript transfer analyses use a fixed 126-coordinate unlabeled transductive feature contract. It is not a source-only vocabulary. A strict source-only feature analysis requires a separately declared vocabulary.
+The manuscript transfer analyses use a fixed 126-coordinate unlabeled transductive vocabulary across transfers. A strict source-only feature analysis requires a separately declared vocabulary.
 
 ## Input names
 
