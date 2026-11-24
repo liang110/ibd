@@ -160,11 +160,38 @@ def main():
     parser.add_argument("--weights", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     args = parser.parse_args()
-    pcols = ["direction", "split", "model", "sample_id", "outcome_ibd", "probability", "bootstrap_cluster"]
+    raw_pred = pd.read_csv(args.predictions, float_precision="round_trip", keep_default_na=False)
+    raw_draws = pd.read_csv(args.weights, keep_default_na=False)
+    current_pred = {"direction", "model", "run_id", "sample_id", "participant_id", "y_true", "y_prob"}
+    current_draws = {"direction", "replicate_id", "participant_id", "multiplicity"}
+    if current_pred.issubset(raw_pred.columns) and current_draws.issubset(raw_draws.columns):
+        pred = raw_pred.rename(columns={
+            "run_id": "split", "participant_id": "bootstrap_cluster",
+            "y_true": "outcome_ibd", "y_prob": "probability",
+        })
+        draws = raw_draws.rename(columns={
+            "replicate_id": "replicate", "participant_id": "bootstrap_cluster",
+            "multiplicity": "weight",
+        })
+        pred["split"] = pred["split"].astype(str)
+        pred["direction"] = pred["direction"].astype(str)
+        pred["model"] = pred["model"].astype(str)
+        pred["sample_id"] = pred["sample_id"].astype(str)
+        pred["bootstrap_cluster"] = pred["bootstrap_cluster"].astype(str)
+        draws["direction"] = draws["direction"].astype(str)
+        draws["bootstrap_cluster"] = draws["bootstrap_cluster"].astype(str)
+    else:
+        pcols = ["direction", "split", "model", "sample_id", "outcome_ibd", "probability", "bootstrap_cluster"]
+        wcols = ["direction", "replicate", "bootstrap_cluster", "weight"]
+        types = {"direction": str, "model": str, "sample_id": str, "bootstrap_cluster": str}
+        pred = raw_pred[pcols].copy()
+        draws = raw_draws[wcols].copy()
+        for column in types:
+            if column in pred:
+                pred[column] = pred[column].astype(str)
+            if column in draws:
+                draws[column] = draws[column].astype(str)
     wcols = ["direction", "replicate", "bootstrap_cluster", "weight"]
-    types = {"direction": str, "model": str, "sample_id": str, "bootstrap_cluster": str}
-    pred = pd.read_csv(args.predictions, usecols=pcols, dtype=types, float_precision="round_trip", keep_default_na=False)
-    draws = pd.read_csv(args.weights, usecols=wcols, dtype={k:v for k,v in types.items() if k in wcols}, keep_default_na=False)
     for data, keys in [(pred, ["direction", "model", "split", "sample_id"]), (draws, wcols[:-1])]:
         if data.empty or data.isna().any().any() or (data.astype(str) == "").any().any() or data.duplicated(keys).any():
             raise ValueError("Inputs have empty or duplicate keys or missing fields")
