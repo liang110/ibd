@@ -21,7 +21,7 @@ The replay writes cell summaries, cell-level draws, paired contrasts and ranking
 
 ## Inputs and outputs
 
-The reader expects direction, model, run, specimen, participant, binary outcome and positive-class probability fields. Replay additionally accepts replicate-level participant multiplicities. Result-level tables used by the manuscript are in `reproducibility/publication/` and `reproducibility/supplementary_source_data/`. Cohort matrices, participant identifiers, specimen order, prediction registries and participant multiplicities are obtained or reconstructed under the original providers’ access terms and are not redistributed here.
+The public prediction fixture uses the columns `direction`, `model`, `run_id`, `sample_id`, `participant_id`, `y_true` and `y_prob`. The participant-multiplicity fixture uses `direction`, `replicate_id`, `participant_id` and `multiplicity`. The replay entry point maps these public fields to its internal scoring schema and also accepts the registered internal names (`split`, `outcome_ibd`, `probability` and `bootstrap_cluster`) for result-level inputs. Result-level tables used by the manuscript are in `reproducibility/publication/` and `reproducibility/supplementary_source_data/`. Cohort matrices, participant identifiers, specimen order, prediction registries and participant multiplicities are obtained or reconstructed under the original providers’ access terms and are not redistributed here.
 
 ## Source reconstruction and prediction replay
 

@@ -84,10 +84,9 @@ def direction_inputs(predictions, draws):
 
 def four_scores(prob, y, labels, groups, stool_weights, person_weights):
     sample_results, balanced_sample_results, person_results = [], [], []
-    specimen_counts = np.asarray([len(group) for group in groups], dtype=float)
-    sample_to_person_count = np.concatenate([
-        np.full(len(group), count) for group, count in zip(groups, specimen_counts)
-    ])
+    sample_to_person_count = np.empty(len(y), dtype=float)
+    for group in groups:
+        sample_to_person_count[group] = len(group)
     balanced_stool_weights = stool_weights / sample_to_person_count[None, :]
     for run in prob:
         sample_results.append(score(y, run, stool_weights))
@@ -102,14 +101,10 @@ def four_scores(prob, y, labels, groups, stool_weights, person_weights):
 
 
 def average_scores(results, labels, weights):
-    """Use half-pair numerators for AUROC; preserve exact equality for identical metric inputs."""
+    """Average run-level metrics without reconstructing integer concordance counts."""
     measured = np.stack(results)
     averaged = np.where((measured == measured[0]).all(axis=0), measured[0], measured.mean(axis=0))
-    denom = 2 * (weights * labels).sum(axis=1) * (weights * (1 - labels)).sum(axis=1)
-    # All runs see the same labelled sample panel and multiplicities, so the
-    # concordance denominators coincide. Numerators are integers after doubling.
-    numerators = np.rint(measured[:, 0] * denom)
-    averaged[0] = numerators.sum(axis=0) / (len(results) * denom)
+    averaged[0] = measured[:, 0].mean(axis=0)
     return averaged
 
 
@@ -160,11 +155,37 @@ def main():
     parser.add_argument("--weights", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     args = parser.parse_args()
-    pcols = ["direction", "split", "model", "sample_id", "outcome_ibd", "probability", "bootstrap_cluster"]
+    raw_pred = pd.read_csv(args.predictions, float_precision="round_trip", keep_default_na=False)
+    raw_draws = pd.read_csv(args.weights, keep_default_na=False)
+    current_pred = {"direction", "model", "run_id", "sample_id", "participant_id", "y_true", "y_prob"}
+    current_draws = {"direction", "replicate_id", "participant_id", "multiplicity"}
     wcols = ["direction", "replicate", "bootstrap_cluster", "weight"]
-    types = {"direction": str, "model": str, "sample_id": str, "bootstrap_cluster": str}
-    pred = pd.read_csv(args.predictions, usecols=pcols, dtype=types, float_precision="round_trip", keep_default_na=False)
-    draws = pd.read_csv(args.weights, usecols=wcols, dtype={k:v for k,v in types.items() if k in wcols}, keep_default_na=False)
+    if current_pred.issubset(raw_pred.columns) and current_draws.issubset(raw_draws.columns):
+        pred = raw_pred.rename(columns={
+            "run_id": "split", "participant_id": "bootstrap_cluster",
+            "y_true": "outcome_ibd", "y_prob": "probability",
+        })
+        draws = raw_draws.rename(columns={
+            "replicate_id": "replicate", "participant_id": "bootstrap_cluster",
+            "multiplicity": "weight",
+        })
+        pred["split"] = pred["split"].astype(str)
+        pred["direction"] = pred["direction"].astype(str)
+        pred["model"] = pred["model"].astype(str)
+        pred["sample_id"] = pred["sample_id"].astype(str)
+        pred["bootstrap_cluster"] = pred["bootstrap_cluster"].astype(str)
+        draws["direction"] = draws["direction"].astype(str)
+        draws["bootstrap_cluster"] = draws["bootstrap_cluster"].astype(str)
+    else:
+        pcols = ["direction", "split", "model", "sample_id", "outcome_ibd", "probability", "bootstrap_cluster"]
+        types = {"direction": str, "model": str, "sample_id": str, "bootstrap_cluster": str}
+        pred = raw_pred[pcols].copy()
+        draws = raw_draws[wcols].copy()
+        for column in types:
+            if column in pred:
+                pred[column] = pred[column].astype(str)
+            if column in draws:
+                draws[column] = draws[column].astype(str)
     for data, keys in [(pred, ["direction", "model", "split", "sample_id"]), (draws, wcols[:-1])]:
         if data.empty or data.isna().any().any() or (data.astype(str) == "").any().any() or data.duplicated(keys).any():
             raise ValueError("Inputs have empty or duplicate keys or missing fields")

@@ -84,10 +84,9 @@ def direction_inputs(predictions, draws):
 
 def four_scores(prob, y, labels, groups, stool_weights, person_weights):
     sample_results, balanced_sample_results, person_results = [], [], []
-    specimen_counts = np.asarray([len(group) for group in groups], dtype=float)
-    sample_to_person_count = np.concatenate([
-        np.full(len(group), count) for group, count in zip(groups, specimen_counts)
-    ])
+    sample_to_person_count = np.empty(len(y), dtype=float)
+    for group in groups:
+        sample_to_person_count[group] = len(group)
     balanced_stool_weights = stool_weights / sample_to_person_count[None, :]
     for run in prob:
         sample_results.append(score(y, run, stool_weights))
@@ -102,14 +101,10 @@ def four_scores(prob, y, labels, groups, stool_weights, person_weights):
 
 
 def average_scores(results, labels, weights):
-    """Use half-pair numerators for AUROC; preserve exact equality for identical metric inputs."""
+    """Average run-level metrics without reconstructing integer concordance counts."""
     measured = np.stack(results)
     averaged = np.where((measured == measured[0]).all(axis=0), measured[0], measured.mean(axis=0))
-    denom = 2 * (weights * labels).sum(axis=1) * (weights * (1 - labels)).sum(axis=1)
-    # All runs see the same labelled sample panel and multiplicities, so the
-    # concordance denominators coincide. Numerators are integers after doubling.
-    numerators = np.rint(measured[:, 0] * denom)
-    averaged[0] = numerators.sum(axis=0) / (len(results) * denom)
+    averaged[0] = measured[:, 0].mean(axis=0)
     return averaged
 
 
